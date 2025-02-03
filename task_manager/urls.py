@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('tasks/', include('tasks.urls')),
     path('', views.HomeView.as_view(), name='home'),
+    path('tasks/', include('tasks.urls')),
 ]
