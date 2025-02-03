@@ -1,0 +1,16 @@
+<form method="POST">
+    {% csrf_token %}
+    <label for="title">Título:</label>
+    <input type="text" name="title" required><br>
+
+    <label for="description">Descrição:</label>
+    <textarea name="description" required></textarea><br>
+
+    <label for="category">Categoria:</label>
+    <input type="text" name="category" required><br>
+
+    <label for="finished_at">Finalizada:</label>
+    <input type="checkbox" name="finished_at"><br>
+
+    <button type="submit">Criar Tarefa</button>
+</form>
