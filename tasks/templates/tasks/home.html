@@ -1,0 +1,12 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}Home - Task Manager{% endblock %}
+
+{% block content %}
+<h1>Projeto de Onboarding!</h1>
+{% for task in tasks %}
+    <h3>{{task.title}}</h3>
+{% endfor %}
+
+<p>Conteúdo da página inicial...</p>
+{% endblock %}
