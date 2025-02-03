@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarefas</title>
+</head>
+<body>
+<ul>
+  {% for task in tasks %}
+    <li>
+  <a href="{%url 'mostrarTask' task.id %}"> {{ task }} </a>
+    </li>
+  {% endfor %}
+</ul>
+</body>
+</html>

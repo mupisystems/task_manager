@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apagar Tarefa {{ task }}</title>
+</head>
+<body>
+<h3>Deseja apagar a tarefa {{ task }}?</h3>
+<a href="{% url 'apagar' task.id %}"> Apagar Tarefa</a>
+<p><a href="{% url 'mostrarTask' task.id %}"> Voltar</a></p>
+</body>
+</html>

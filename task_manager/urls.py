@@ -24,4 +24,5 @@ urlpatterns = [
     #path('tasks/', include('tasks.urls')),
     path('', views.HomeView.as_view(), name='home'),
     path('tasks/', include('tasks.urls')),
+    path('user/', include('users.urls')),
 ]
