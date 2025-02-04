@@ -1,48 +1,47 @@
-from django.http import HttpResponse
-from django.contrib.auth.models import User
-from tasks.models import Task
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+# from django.shortcuts import render, redirect
+# from django.http import HttpResponse
+# from .forms import UserProfileForm
+# from .models import Organization
+
+# def cadastro(request):
 
 
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST)
 
-def TaskListView(request):
-    tasks = Task.objects.all()
-    return render(request, 'index.html', {'tasks': tasks})
+#         password1 = request.POST.get('password1')
+#         password2 = request.POST.get('password2')
 
-def TaskDetailView(request, pk):
-    task = Task.objects.get(pk=pk)
-    return render(request, 'detail.html', {'task': task})
+#         if password1 != password2:
+#             return render(request, 'registro.html', {'form': form,'error':'As senhas não coincidem'})
 
-def TaskCreateView(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        category = request.POST.get('category')
-        finished_at = request.POST.get('finished_at')
-        Task.objects.create(title=title, description=description, category=category, finished_at=finished_at,user=request.user)
-        return HttpResponse('Tarefa criada com sucesso')
-    else:
-        return render(request, 'create.html')
+#         if form.is_valid():
+#             # owner = UserProfile.objects.filter(email="luiz@gmail.com").first()
+#             # org = Organization.objects.filter(owner=owner).first()
+#             user = form.save()
+#             user.set_password(password1)
+#             org = Organization.objects.create(name=f"Organização de {user.username}", owner=user)
+#             org.members.add(user)
+#             user.organization = org
+#             user.save()
+#             return HttpResponse("Okay, criado")
+#         else:
+#             return render(request, 'registro.html', {'form': form})
+
+#     else:
+#         form = UserProfileForm()
     
-def TaskUpdateView(request, pk):
-    
-    task = Task.objects.get(pk=pk)
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        category = request.POST.get('category')
-        finished_at = request.POST.get('finished_at')
-        task.title = title
-        task.description = description
-        task.category = category
-        task.finished_at = finished_at
-        task.save()
-        return HttpResponse('Tarefa atualizada com sucesso')
-    else:
-        return render(request, 'update.html', {'task': task})
-    
-def TaskDeleteView(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    task.delete()
-    return HttpResponse('Tarefa deletada com sucesso')
+#     return render(request, 'registro.html', {'form': form})
+
+
+
+# def showOrganizationMembers(request):
+#     # Obtenha a organização do usuário logado
+#     user = request.user
+#     organization = user.organization
+
+#     # Obtenha membros da organização
+#     members = organization.members.all()
+
+#     return render(request, 'members.html', {'members': members})
+

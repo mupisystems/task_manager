@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Site{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Contato</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="#">Sair</a></li>
+                {% else %}
+                    <li><a href="#">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- O conteúdo das páginas será inserido aqui -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 - Meu Site. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
