@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ org }}</title>
+</head>
+<body>
+<h3>{{ org }}</h3>
+
+    {% for membro in membros %}
+
+    <ul>
+        <li>
+            {{ membro.user.get_short_name }} - {{ membro.get_role_display }}
+        </li>
+    </ul>
+
+    {% endfor %}
+
+</body>
+</html>

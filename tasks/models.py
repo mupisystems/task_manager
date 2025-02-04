@@ -1,13 +1,15 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import CASCADE, DO_NOTHING, ManyToManyField
-from django.contrib.auth.models import User
-from users.models import Organization
+from users.models import Organization, User
 
 
 class Category(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField(blank=True, null=False, default='')
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
     def __str__(self):
@@ -34,5 +36,7 @@ class Comments(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name_plural = "Comments"
     def __str__(self):
         return f"Comment by {self.user} on {self.task}"
