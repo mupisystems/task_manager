@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from debug_toolbar.toolbar import debug_toolbar_urls
 from task_manager import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('tasks/', include('tasks.urls')),
+    path('accounts/', include('allauth.urls')),
     path('', views.HomeView.as_view(), name='home'),
     path('tasks/', include('tasks.urls')),
     path('user/', include('users.urls')),
     path('error404', views.error404, name='erro404')
-]
+]   +  debug_toolbar_urls()

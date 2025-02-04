@@ -104,7 +104,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return f'Perfil de {self.user.username} na {self.current_organization.name}'
 
-class Funcao(models.Model): #Aqui define a função do usuario na equipe
+class Membership(models.Model): #Aqui define a função do usuario na equipe
     ROLES = [
         ('owner', 'Dono'),
         ('admin', 'Administrador'),
