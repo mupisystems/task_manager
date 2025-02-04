@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404
 from .models import Task
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+
 @login_required()
 def TaskCreateView(request):
     if request.method != 'POST':
@@ -26,16 +28,15 @@ def TaskCreateView(request):
 
 @login_required()
 def TaskList(request):
-    tasks = Task.objects.filter()
+
+    tasks = Task.objects.filter(organization=request.user.profile.current_organization)
     context = {'tasks': tasks}
     return render(request, 'tasks/task_list.html', context)
 
 
 @login_required()
 def MostrarTask(request, task_id):
-
-    task = get_object_or_404(Task, id=task_id)
-
+    task = get_object_or_404(Task, id=task_id, organization=request.user.profile.current_organization)
     context = {'task': task}
     return render(request, 'tasks/task.html', context)
 
@@ -43,7 +44,7 @@ def MostrarTask(request, task_id):
 @login_required()
 def EditarTask(request, task_id):
     try:
-        task = get_object_or_404(Task, id=task_id, user=request.user)
+        task = get_object_or_404(Task, id=task_id, user=request.user, organization=request.user.profile.current_organization)
     except Http404:
         return HttpResponseRedirect(reverse('Erro404'))
 
@@ -60,6 +61,7 @@ def EditarTask(request, task_id):
 
     return render(request, 'tasks/task_edit.html', context)
 
+@login_required()
 def deleteTask(request, task_id):
     try:
         task = get_object_or_404(Task, id=task_id)
@@ -69,10 +71,15 @@ def deleteTask(request, task_id):
     messages.success(request, "Tarefa deletada com sucesso!")
     return HttpResponseRedirect(reverse('taskList'))
 
+@login_required()
 def confirmDeleteTask(request, task_id):
     try:
      task = get_object_or_404(Task, id=task_id, user=request.user)
     except Http404:
-        return HttpResponseRedirect(reverse('Erro404'))
+        return HttpResponseRedirect(reverse('erro404'))
+
+    if request.user.profile.role != 'owner':
+        return HttpResponseRedirect(reverse('unauthorized'))
+
     context={'task': task}
     return render(request, 'tasks/task_delete.html', context)

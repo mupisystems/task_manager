@@ -77,6 +77,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
 
+    def __str__(self):
+        return self.username
 #Termino da criação do model de User personalizado
 
 
@@ -91,11 +93,16 @@ class Organization(models.Model):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=CASCADE, related_name='profile')
+    user = models.ForeignKey(User,on_delete=CASCADE, related_name='profile')
     current_organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True, blank=True)
 
+    class Meta:
+      unique_together = ('user', 'current_organization')
+      verbose_name_plural = "User Profiles"
+
+
     def __str__(self):
-        return f'Perfil de {self.user.username}'
+        return f'Perfil de {self.user.username} na {self.current_organization.name}'
 
 class Funcao(models.Model): #Aqui define a função do usuario na equipe
     ROLES = [

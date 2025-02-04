@@ -1,0 +1,20 @@
+
+
+
+{% block header %}
+    <h1>Entre com a Sua Conta</h1>
+{% endblock header %}
+{% block content %}
+    <form action="{% url 'login' %}" method="POST" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+
+
+            <button name="submit" class="btn btn-primary btn-lg">Entrar</button> ou
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Criar Conta</a>
+
+        <input type="hidden" name="next" value="{% url 'home' %}"/>
+    </form>
+
+{% endblock content %}

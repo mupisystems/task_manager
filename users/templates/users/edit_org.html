@@ -1,5 +1,4 @@
 {% extends 'tasks/base.html' %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,16 +13,15 @@
 
     <ul>
         <li>
-            {{ membro.user.get_short_name }} - {{ membro.get_role_display }}
+            {% if membro.user.id == user.id %}
+            {{ membro.user.get_username }} - {{ membro.get_role_display }}
+            {% else %}
+            {{ membro.user.get_username }} - {{ membro.get_role_display }}  <a href="https://google.com">Expulsar Membro</a>
+            {% endif %}
         </li>
     </ul>
 
     {% endfor %}
-
-    {% if user_role != 'admin' or 'owner' %}
-        <a href="{% url 'editOrg' org.id %}"> Dashboard Equipe</a>
-    {%  endif %}
-
 </body>
 {% endblock content %}
 </html>

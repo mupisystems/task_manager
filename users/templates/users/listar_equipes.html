@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Escolha sua equipe</h2>
+<ul>
+    {% for perfil in perfis %}
+        <li>
+            {% if perfil.current_organization.id == org_atual_id %}
+                <strong>✔ {{ perfil.current_organization.name }} (Ativa)</strong>
+            {% else %}
+                <a href="{% url 'trocar_perfil' perfil.current_organization.id %}">
+                    Trocar para: {{ perfil.current_organization.name }}
+                </a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

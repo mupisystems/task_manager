@@ -25,4 +25,5 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('tasks/', include('tasks.urls')),
     path('user/', include('users.urls')),
+    path('error404', views.error404, name='erro404')
 ]
