@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.template.context_processors import request
-from django.views.generic import TemplateView, GenericViewError
+from django.views.generic import TemplateView, View, ListView
 # Create your views here.
+
 class HomeView(TemplateView):
     template_name = 'home.html'
 
-def error404(request):
-    return render(request,'error404.html')
+class Error404View(View):
+    template_name = 'error404.html'
+
+class Unauthorized(View):
+    template_name = 'unauthorized.html'

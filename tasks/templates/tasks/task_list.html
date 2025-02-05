@@ -6,7 +6,7 @@
 </head>
 <body>
 <ul>
-  {% for task in tasks %}
+  {% for task in object_list %}
     <li>
   <a href="{%url 'mostrarTask' task.id %}"> {{ task }} </a>
     </li>

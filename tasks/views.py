@@ -1,5 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic import ListView
+
 from tasks.forms import TaskForm
 from django.urls import reverse
 from django.http import Http404
@@ -26,15 +28,22 @@ def TaskCreateView(request):
     return render(request, 'tasks/task_form.html', context)
 
 
-@login_required()
-def TaskList(request):
+# @login_required()
+# def TaskList(request):
+#
+#     tasks = Task.objects.filter(organization=request.user.profile.current_organization)
+#     context = {'tasks': tasks}
+#     return render(request, 'tasks/task_list.html', context)
 
-    tasks = Task.objects.filter(organization=request.user.profile.current_organization)
-    context = {'tasks': tasks}
-    return render(request, 'tasks/task_list.html', context)
+class TaskListView(ListView):
+    model = Task
+    template_name = 'tasks/task_list.html'
+    def get_queryset(self):
+        queryset = Task.objects.filter(organization=self.request.user.current_organization)
+        return queryset
 
 
-@login_required()
+
 def MostrarTask(request, task_id):
     task = get_object_or_404(Task, id=task_id, organization=request.user.profile.current_organization)
     context = {'task': task}

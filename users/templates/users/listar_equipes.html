@@ -2,16 +2,13 @@
 
 {% block content %}
 <h2>Escolha sua equipe</h2>
+<h3>Voce está na {{ user.current_organization}}</h3>
 <ul>
-    {% for perfil in perfis %}
+    {% for perfil in object_list %}
         <li>
-            {% if perfil.current_organization.id == org_atual_id %}
-                <strong>✔ {{ perfil.current_organization.name }} (Ativa)</strong>
-            {% else %}
-                <a href="{% url 'trocar_perfil' perfil.current_organization.id %}">
-                    Trocar para: {{ perfil.current_organization.name }}
+                <a href="{% url 'trocar_perfil' perfil.organization.id %}">
+                    Trocar para: {{ perfil.organization.name }}
                 </a>
-            {% endif %}
         </li>
     {% endfor %}
 </ul>

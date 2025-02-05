@@ -1,45 +1,56 @@
 from django import forms
-from .models import Organization, User, UserProfile
+from django.template.context_processors import request
+from .models import Organization, User, UserProfile, Membership
 from django.contrib.auth.forms import UserCreationForm
+from allauth.account.forms import SignupForm, LoginForm
 
-class RegistroUser(UserCreationForm):
-    email = forms.EmailField(required=True, label='E-Mail', widget=forms.EmailInput())
-    first_name = forms.CharField(required=True, label='Primeiro Nome', widget=forms.TextInput(attrs={'class':'form-control'}))
-    last_name = forms.CharField(required=True, label='Sobrenome', widget=forms.TextInput(attrs={'class':'form-control'}))
+
+class FormRegistro(SignupForm):
     username = forms.CharField(
+        max_length=15,
         required=True,
-        label='Nome de Usuario',
-        widget=forms.TextInput(attrs={'class':'form-control'}),
-        help_text='')
-
-    password1 = forms.CharField(
+        label='Nome de Usuario')
+    first_name = forms.CharField(
+        max_length=30,
         required=True,
-        label='Senha',
-        help_text='',
-        widget=forms.PasswordInput(attrs={'class':'form-control'})
-    )
+        label='Primeiro Nome')
 
-    password2 = forms.CharField(
+    last_name = forms.CharField(
+        max_length=30,
         required=True,
-        label='Confirmação de Senha',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
+        label='Sobrenome')
 
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
-        widgets = {
-        }
+    # Modificando labels e help_texts dos campos padrão
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        labels = {'username': 'Nome de Usuario',
-                  'email': 'E-Mail',
-                  'first_name': 'Primeiro Nome',
-                  'last_name': 'Sobrenome',
-                  'password1': 'Senha',
-                  'password2': 'Confirme a Senha'}
+        self.fields['email'].label = "E-mail"
+        self.fields['email'].help_text = "Informe um e-mail válido para cadastro."
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Esse e-mail já está em uso.")
-        return email
+        self.fields['password1'].label = "Senha"
+        self.fields['password1'].help_text = "Sua senha deve ter pelo menos 8 caracteres."
+
+        self.fields['password2'].label = "Confirme a senha"
+        self.fields['password2'].help_text = "Repita a senha para confirmação."
+
+    def save(self, request):
+        user = super(FormRegistro, self).save(request)
+
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.username = self.cleaned_data['username']
+
+        organization = Organization.objects.create(name=f'Equipe de {user.username}', created_by=user)
+        Membership.objects.create(user=user, organization=organization, role='owner')
+        UserProfile.objects.create(user=user, current_organization=organization)
+
+        user.save()
+
+        return user
+
+
+class FormLogin(LoginForm):
+
+    def login(self, *args, **kwargs):
+
+        return super(FormLogin, self).login(*args, **kwargs)

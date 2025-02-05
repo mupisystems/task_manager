@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import include, path
 from debug_toolbar.toolbar import debug_toolbar_urls
 from task_manager import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('', views.HomeView.as_view(), name='home'),
-    path('tasks/', include('tasks.urls')),
-    path('user/', include('users.urls')),
-    path('error404', views.error404, name='erro404')
-]   +  debug_toolbar_urls()
+                  path('admin/', admin.site.urls),
+                  path('accounts/', include('allauth.urls')),
+                  path('', login_required(views.HomeView.as_view()), name='home'),
+                  path('tasks/', include('tasks.urls')),
+                  path('user/', include('users.urls')),
+                  path('error404', views.Error404View.as_view(), name='erro404'),
+                  path('unauthorized', views.Unauthorized.as_view(), name='unauthorized'),
+              ] + debug_toolbar_urls()

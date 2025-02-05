@@ -8,9 +8,9 @@
 </head>
 {% block content %}
 <body>
-<h3>{{ org }}</h3>
+<h3>{{ request.user.current_organization.first }}</h3>
 
-    {% for membro in membros %}
+    {% for membro in object_list %}
 
     <ul>
         <li>
@@ -20,9 +20,6 @@
 
     {% endfor %}
 
-    {% if user_role != 'admin' or 'owner' %}
-        <a href="{% url 'editOrg' org.id %}"> Dashboard Equipe</a>
-    {%  endif %}
 
 </body>
 {% endblock content %}
