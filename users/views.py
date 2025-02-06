@@ -26,7 +26,9 @@ class SwitchEquipeView(View):
         return redirect('listar_equipes')
 
 
-class showOrgView(ListView):
+
+
+class ShowOrgView(ListView):
     model = Membership
     context_object_name = 'members'
     template_name = 'users/equipe.html'
@@ -35,12 +37,11 @@ class showOrgView(ListView):
         return Membership.objects.filter(organization=self.request.user.current_organization)
 
 
-class editEquipeView(UpdateView):
+class Editequipeview(UpdateView):
     model = Organization
     fields = ['name']
     template_name = 'users/dashboard_equipe.html'
     context_object_name = 'organization'
-
 
     def get_object(self):
         org = get_object_or_404(Organization, id=self.request.user.current_organization.id)
