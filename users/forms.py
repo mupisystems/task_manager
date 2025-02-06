@@ -1,7 +1,5 @@
 from django import forms
-from django.template.context_processors import request
-from .models import Organization, User, UserProfile, Membership
-from django.contrib.auth.forms import UserCreationForm
+from .models import Organization, Membership
 from allauth.account.forms import SignupForm, LoginForm
 
 
@@ -10,15 +8,11 @@ class FormRegistro(SignupForm):
         max_length=15,
         required=True,
         label='Nome de Usuario')
-    first_name = forms.CharField(
-        max_length=30,
+    full_name = forms.CharField(
+        max_length=60,
         required=True,
-        label='Primeiro Nome')
-
-    last_name = forms.CharField(
-        max_length=30,
-        required=True,
-        label='Sobrenome')
+        label='Nome Completo'
+    )
 
     # Modificando labels e help_texts dos campos padrão
     def __init__(self, *args, **kwargs):
@@ -42,7 +36,6 @@ class FormRegistro(SignupForm):
 
         organization = Organization.objects.create(name=f'Equipe de {user.username}', created_by=user)
         Membership.objects.create(user=user, organization=organization, role='owner')
-        UserProfile.objects.create(user=user, current_organization=organization)
 
         user.save()
 

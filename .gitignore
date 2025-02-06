@@ -1,6 +1,9 @@
 # Ambiente virtual
 .venv/
-
+# Arquivos django
+migrations/
+users/migrations
+tasks/migrations
 # Arquivos de cache do Python
 __pycache__/
 *.py[cod]

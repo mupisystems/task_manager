@@ -10,15 +10,25 @@
 <body>
 <h3>{{ request.user.current_organization.first }}</h3>
 
-    {% for membro in object_list %}
+{% for membro in object_list %}
 
-    <ul>
-        <li>
-            {{ membro.user.get_short_name }} - {{ membro.get_role_display }}
-        </li>
-    </ul>
+<ul>
+    {% if role == 'owner' or role == 'admin' %}
+    <li>
+        {{ membro.user.get_short_name }} - {{ membro.get_role_display }} <a href="{% url 'editar_membro' membro.user.id %}" class="btn">Editar Membro</a>
+    </li>
+    {% else %}
+    <li>
+        {{ membro.user.get_short_name }} - {{ membro.get_role_display }}
+    </li>
+    {% endif %}
+</ul>
 
-    {% endfor %}
+{% endfor %}
+
+<p>
+    <a href="{% url 'criar_membro' %}" class="btn">Criar Novo Membro</a>
+</p>
 
 
 </body>

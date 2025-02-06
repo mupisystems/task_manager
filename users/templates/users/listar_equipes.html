@@ -2,14 +2,25 @@
 
 {% block content %}
 <h2>Escolha sua equipe</h2>
-<h3>Voce está na {{ user.current_organization}}</h3>
-<ul>
-    {% for perfil in object_list %}
-        <li>
-                <a href="{% url 'trocar_perfil' perfil.organization.id %}">
-                    Trocar para: {{ perfil.organization.name }}
-                </a>
-        </li>
-    {% endfor %}
-</ul>
-{% endblock %}
+<h3>Você está na {{ user.current_organization }}</h3>
+<form id="trocarEquipeForm" method="POST" action="{% url 'trocar_perfil' org_id='0' %}">
+    {% csrf_token %}
+    <select id="organizationSelect" name="organization">
+        {% for membership in organizations %}
+        <option value="{{ membership.organization.id }}">
+            {{ membership.organization.name }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn">Trocar</button>
+</form>
+
+<script>
+    document.getElementById('organizationSelect').addEventListener('change', function() {
+        var selectedOrgId = this.value;
+        var form = document.getElementById('trocarEquipeForm');
+        form.action = "{% url 'trocar_perfil' org_id='0' %}".replace('0', selectedOrgId);
+    });
+</script>
+
+{% endblock content %}

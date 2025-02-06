@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Membro</title>
+</head>
+{% block content %}
+<h2>Nome: {{ member.user.get_short_name }}</h2>
+
+<form method="post" id="roleForm">
+    {% csrf_token %}
+    <big>Função: </big>
+
+    <select name="role" id="roleSelect">
+        <option value="admin">Admnistrador</option>
+        <option value="collaborator">Colaborador</option>
+    </select>
+    <p>
+    <button class="btn" type="submit">Salvar alterações</button>
+    <a href="{% url 'delete_membro' member.user.id %}"><button class="btn" type="button">Expulsar</button></a>
+     </p>
+    <p></p>
+    <a href="{% url 'mostrar_equipe' %}"><button class="btn" type="button">Cancelar</button></a>
+</form>
+{% endblock %}

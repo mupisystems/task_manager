@@ -102,6 +102,7 @@ class Membership(models.Model):  # Aqui define a função do usuario na equipe
     user = models.ForeignKey(User, on_delete=CASCADE, related_name='funcoes')
     organization = models.ForeignKey(Organization, on_delete=CASCADE, related_name='membros')
     role = models.CharField(max_length=20, choices=ROLES, default='collaborator')
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ('user', 'organization')
