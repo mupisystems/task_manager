@@ -10,6 +10,6 @@ urlpatterns = [
     path('equipe/edit', login_required(views.EditEquipeView.as_view()), name='editOrg'),
     path('escolher-equipe', login_required(views.EquipeListView.as_view()), name='listar_equipes'),
     path('escolher-equipe/<org_id>/', login_required(views.UpdateEquipeView.as_view()), name='trocar_perfil'),
-    path('perfil', login_required(views.MostrarPerfilView.as_view()), name='perfil')
+    path('perfil', login_required(views.MostrarPerfilView.as_view()), name='perfil'),
 
 ]

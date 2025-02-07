@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import include, path
 from debug_toolbar.toolbar import debug_toolbar_urls
 from task_manager import views
+from users import views as vw
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
+                  path('accounts/password/change/', login_required(vw.CustomPasswordChangeView.as_view()), name='account_change_password'),
                   path('accounts/', include('allauth.urls')),
                   path('', login_required(views.HomeView.as_view()), name='home'),
                   path('tasks/', include('tasks.urls')),

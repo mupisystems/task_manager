@@ -54,6 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                     help_text=_('Designates whether this user should be treated as active. \
                     Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    first_login = models.BooleanField(default=True)
     is_trusty = models.BooleanField(_('trusty'), default=False,
                                     help_text=_('Designates whether this user has confirmed his account.'))
     current_organization = models.ForeignKey('Organization', on_delete=models.SET_NULL, null=True, blank=True)

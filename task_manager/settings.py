@@ -13,9 +13,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.conf.global_settings import LOGIN_REDIRECT_URL
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -27,7 +28,6 @@ SECRET_KEY = 'django-insecure-cjilavz!2pkb1+g++ks3+*l6agds0g)_mrk7=%^j94tr+naiu(
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -56,7 +56,6 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'users.middlewares.ChangePasswordMiddleware',
 ]
 
 ROOT_URLCONF = 'task_manager.urls'
@@ -89,7 +89,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'task_manager.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -110,7 +109,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -129,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -141,7 +138,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -150,7 +146,6 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-LOGIN_URL = '/accounts/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -164,15 +159,21 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
-
-ACCOUNT_FORMS = {'login': 'users.forms.FormLogin'}
-ACCOUNT_FORMS = {'signup': 'users.forms.FormRegistro'}
+# Accounts configs
+ACCOUNT_FORMS = {'login': 'users.forms.FormLogin',
+                 'change_password': 'users.forms.CustomChangePasswordForm',
+                 'signup': 'users.forms.FormRegistro'
+                 }
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/users/escolher-equipe'
 ACCOUNT_EMAIL_VERIFICATION = "none"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_PASSWORD = '12345678'
+LOGIN_URL = 'account_login'
+LOGIN_REDIRECT_URL = 'perfil'
+
 AUTHENTICATION_BACKENDS = [
 
     # Needed to login by username in Django admin, regardless of `allauth`

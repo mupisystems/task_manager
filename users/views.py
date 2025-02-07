@@ -1,11 +1,11 @@
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404
-from django.views.generic import ListView, View, DetailView, UpdateView, DeleteView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from users.models import Organization, Membership, User
 from django.shortcuts import redirect, get_object_or_404
-from . import forms
+from allauth.account.views import PasswordChangeView
 
-DEFAULT_PASSWORD = '12345678'
 
 class EquipeListView(ListView):
     model = Membership
@@ -31,8 +31,6 @@ class UpdateEquipeView(UpdateView):
         if new_org:
             user = request.user
             new_org = Organization.objects.filter(id=new_org).first()
-            print(new_org)
-            # membership =
             if Membership.objects.filter(organization=new_org, user=user).exists():
                 user.current_organization = new_org
                 user.save()
@@ -41,7 +39,7 @@ class UpdateEquipeView(UpdateView):
         else:
             return redirect('error404')
 
-        return redirect('listar_equipes')
+        return redirect('mostrar_equipe')
 
 
 class ShowOrgView(ListView):
@@ -193,3 +191,7 @@ class CreateMemberView(CreateView):
         membership = Membership.objects.create(user=user, organization=self.request.user.current_organization, role='collaborator')
         return redirect('mostrar_equipe')
 
+
+class CustomPasswordChangeView(PasswordChangeView):
+    def get_success_url(self):
+        return reverse_lazy('perfil')
