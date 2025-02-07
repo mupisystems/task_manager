@@ -6,8 +6,8 @@ from django.views.generic import TemplateView, View, ListView
 class HomeView(TemplateView):
     template_name = 'home.html'
 
-class Error404View(View):
+class Error404View(TemplateView):
     template_name = 'error404.html'
 
-class Unauthorized(View):
+class Unauthorized(TemplateView):
     template_name = 'unauthorized.html'

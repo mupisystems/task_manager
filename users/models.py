@@ -52,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                    help_text=_('Designates whether the user can log into this admin site.'))
     is_active = models.BooleanField(_('active'), default=True,
                                     help_text=_('Designates whether this user should be treated as active. \
-                    Unselect this instead of deleting accounts.'))
+                    Unselect this instead of deleting account.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     first_login = models.BooleanField(default=True)
     is_trusty = models.BooleanField(_('trusty'), default=False,

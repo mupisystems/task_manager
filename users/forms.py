@@ -10,13 +10,8 @@ class FormRegistro(SignupForm):
         max_length=15,
         required=True,
         label='Nome de Usuario')
-    full_name = forms.CharField(
-        max_length=60,
-        required=True,
-        label='Nome Completo'
-    )
 
-    # Modificando labels e help_texts dos campos padrão
+    #Modificando labels e help_texts dos campos padrão
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -58,11 +53,7 @@ class CustomChangePasswordForm(ChangePasswordForm):
         self.fields['oldpassword'].label = "Senha Atual"
 
         self.fields['password1'].label = "Nova Senha"
-        self.fields['password1'].help_text = (
-            "Sua senha não pode ser muito semelhante às suas outras informações pessoais."
-            "Sua senha deve conter pelo menos 8 caracteres."
-            "Sua senha não pode ser uma senha comumente usada."
-            "Sua senha não pode ser totalmente numérica.")
+        self.fields['password1'].help_text = "Sua senha deve ter pelo menos 8 caracteres."
 
         self.fields['password2'].label = "Repita a Nova Senha"
         self.fields['password2'].help_text = "Repita a senha para confirmação."

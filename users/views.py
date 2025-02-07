@@ -1,11 +1,14 @@
+from allauth.headless.base.response import ForbiddenResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404
+from task_manager.settings import DEFAULT_PASSWORD
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from users.models import Organization, Membership, User
 from django.shortcuts import redirect, get_object_or_404
 from allauth.account.views import PasswordChangeView
-
+from django.utils.decorators import method_decorator
 
 class EquipeListView(ListView):
     model = Membership
@@ -62,6 +65,7 @@ class ShowOrgView(ListView):
 class EditEquipeView(UpdateView):
     model = Organization
     fields = ['name']
+    pk_url_kwarg = 'org_id'
     template_name = 'users/dashboard_equipe.html'
     context_object_name = 'organization'
 
@@ -178,15 +182,22 @@ class DeleteMemberView(DeleteView):
 class CreateMemberView(CreateView):
     model = User
     template_name = 'users/criar_membro.html'
-    fields = ['username', 'email', 'first_name', 'last_name']
+    fields = ['email', 'first_name', 'last_name']
     success_url = 'mostrar_equipe'
     context_object_name = 'new_member'
 
+    def dispatch(self, request, *args, **kwargs):
+        user_membership = Membership.objects.filter(user=self.request.user,
+                                                    organization=self.request.user.current_organization).first()
+        if not user_membership or user_membership.role not in ['admin', 'owner']:
+            return redirect('unauthorized')
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = form.save(commit=False)
         user.current_organization = self.request.user.current_organization
-        user.password = DEFAULT_PASSWORD
+        user.set_password(DEFAULT_PASSWORD)
+        user.set_username(user.email)
         user.save()
         membership = Membership.objects.create(user=user, organization=self.request.user.current_organization, role='collaborator')
         return redirect('mostrar_equipe')

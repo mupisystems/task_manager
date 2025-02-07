@@ -1,12 +1,17 @@
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Apagar Tarefa {{ task }}</title>
+    <title>Apagar Tarefa</title>
 </head>
-<body>
-<h3>Deseja apagar a tarefa {{ task }}?</h3>
-<a href="{% url 'apagar' task.id %}"> Apagar Tarefa</a>
-<p><a href="{% url 'mostrarTask' task.id %}"> Voltar</a></p>
-</body>
-</html>
+{% block content %}
+<h2>Deseja apagar a tarefa {{ task }}?</h2>
+
+<form method="post" action="{% url 'delete_task' task.id %}">
+    {% csrf_token %}
+    <button class="btn" type="submit">Apagar</button>
+</form>
+<a href="{% url 'mostrar_task' task.id %}"><button class="btn" type="button">Cancelar</button></a>
+
+{% endblock %}

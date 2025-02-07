@@ -25,11 +25,11 @@
 </ul>
 
 {% endfor %}
-
+{% if role == 'owner' or role == 'admin' %}
 <p>
-    <a href="{% url 'criar_membro' %}" class="btn">Criar Novo Membro</a>
+    <a href="{% url 'criar_membro' %}" class="btn">Adicionar Novo Membro</a>
 </p>
-
+{% endif %}
 
 </body>
 {% endblock content %}

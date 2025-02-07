@@ -6,6 +6,7 @@ from users.models import Organization, User
 
 class Category(models.Model):
     title = models.CharField(max_length=30)
+    organization = models.ForeignKey(Organization, on_delete=CASCADE, null=True, blank=True)
     description = models.TextField(blank=True, null=False, default='')
 
     class Meta:
@@ -17,8 +18,10 @@ class Category(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=30)
+    created_by = models.ForeignKey(User, on_delete=CASCADE, null=True, blank=True, related_name='created_tasks')
     description = models.TextField(blank=True, null=False, default='')
     completed = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField()
@@ -39,4 +42,4 @@ class Comments(models.Model):
     class Meta:
         verbose_name_plural = "Comments"
     def __str__(self):
-        return f"Comment by {self.user} on {self.task}"
+        return f"Comentario feito por {self.user} na tarefa {self.task}"

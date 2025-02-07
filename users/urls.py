@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import  path
 from . import views
 
+
 urlpatterns = [
     path('equipe', login_required(views.ShowOrgView.as_view()), name='mostrar_equipe'),
     path('new-member', login_required(views.CreateMemberView.as_view()), name='criar_membro'),

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Cate</title>
+</head>
+{% block content %}
+
+<body>
+<form action="{% url 'criar_categoria' %}" method="POST" class="form">
+
+
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Registrar</button>
+</form>
+</body>
+
+{% endblock content %}
+</html>

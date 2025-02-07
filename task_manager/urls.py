@@ -23,8 +23,8 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('accounts/password/change/', login_required(vw.CustomPasswordChangeView.as_view()), name='account_change_password'),
-                  path('accounts/', include('allauth.urls')),
+                  path('conta/password/change/', login_required(vw.CustomPasswordChangeView.as_view()), name='account_change_password'),
+                  path('conta/', include('allauth.urls')),
                   path('', login_required(views.HomeView.as_view()), name='home'),
                   path('tasks/', include('tasks.urls')),
                   path('user/', include('users.urls')),

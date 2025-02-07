@@ -15,11 +15,11 @@ class ChangePasswordMiddleware:
         if request.user.is_authenticated:
             user = request.user
             if user.first_login:
-                if request.path == '/accounts/password/change/' and request.method == 'POST':
+                if request.path == '/conta/password/change/' and request.method == 'POST':
                     user.first_login = False
                     user.save()
                 else:
-                    if request.path != '/accounts/password/change/':
+                    if request.path != '/conta/password/change/':
                          return redirect('account_change_password')
         return self.get_response(request)
 

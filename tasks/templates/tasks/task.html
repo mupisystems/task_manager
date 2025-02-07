@@ -1,16 +1,18 @@
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{ task }}</title>
 </head>
+{% block content %}
 <body>
 <p>Nome: {{ task.title }}</p>
 <p>Completa: {{ task.completed }}</p>
 <p>Descrição: {{ task.description }}</p>
 <p>Criador: {{ task.user }}</p>
 
-<a href="{% url 'editTask' task.id %}"> Editar Tarefa</a>
-<a href="{% url 'deleteTask' task.id %}"> Apagar Tarefa</a>
+<a href="{% url 'edit_task' task.id %}"> Editar Tarefa</a>
+<a href="{% url 'delete_task' task.id %}"> Apagar Tarefa</a>
 </body>
-</html>
+{% endblock %}
