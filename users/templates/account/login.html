@@ -1,49 +1,60 @@
-{% extends "account/base_manage.html" %}
+{% extends "base.html" %}
 {% load i18n %}
 {% load allauth account %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     Login
 {% endblock title %}
 
 {% block content %}
-        
 
-        <form action="">
 
-            {% csrf_token %}
 
-            {{ form|crispy }}
-        </form>
-        
-        {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
-            {% element hr %}
-            {% endelement %}
-            {% element button_group vertical=True %}
-                {% if PASSKEY_LOGIN_ENABLED %}
-                    {% element button type="submit" form="mfa_login" id="passkey_login" tags="prominent,login,outline,primary" %}
-                        {% trans "Sign in with a passkey" %}
-                    {% endelement %}
-                {% endif %}
-                {% if LOGIN_BY_CODE_ENABLED %}
-                    {% element button href=request_login_code_url tags="prominent,login,outline,primary" %}
-                        {% trans "Mail me a sign-in code" %}
-                    {% endelement %}
-                {% endif %}
-            {% endelement %}
-        {% endif %}
-        
-        {% if SOCIALACCOUNT_ENABLED %}
-            {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-        {% endif %}
+<main class="main-content main-content-bg mt-0">
+    <section>
+      <div class="page-header min-vh-75">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+              <div class="card card-plain mt-8 p-3">
+                <div class="card-header pb-0 text-start">
+                  <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
+                  <p class="mb-0">Enter your email and password to sign in</p>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'account_login' %}" method="post">
+
+                        {% csrf_token %}
+            
+                        {{ form|crispy }}
+            
+                        <input type="submit" class='btn w-100 btn-info' value="Entrar">
+            
+                    </form> 
+                </div>
+                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                  <p class="mb-4 text-sm mx-auto">
+                    Don't have an account?
+                    <a href="{% url 'account_signup' %}" class="text-info text-gradient font-weight-bold">Sign up</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../../../assets/img/curved-images/curved9.jpg')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+    <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../../../static/soft-ui/img/curved-images/curved9.jpg')"></div>
+  </div>   
+    
     
 {% endblock content %}
 
-{% block extra_body %}
-    {{ block.super }}
-    {% if PASSKEY_LOGIN_ENABLED %}
-        {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
-    {% endif %}
-{% endblock %}
-
-{{user}}

@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/teste/home' 
+LOGIN_REDIRECT_URL = '/users/home' 
 ACCOUNT_LOGOUT_REDIRECT_URL  = '/accounts/signup'
 ACCOUNT_EMAIL_VERIFICATION = "none"
 

@@ -19,6 +19,7 @@ class UserProfile(AbstractUser):
 class Organization(models.Model):
     name = models.CharField(max_length=255, unique=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="owned_organization")
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -31,7 +32,7 @@ class MemberShip(models.Model):
         ('admin', 'Admin'),
         ('member', 'Member')    
     ]
-
+    is_active = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="user_membership")
     role = models.CharField(max_length=255, choices=roles)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="org_membership")

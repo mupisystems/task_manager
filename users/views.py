@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import CustomSignupForm, RegisterNewMemberForm
-from allauth.account.views import SignupView,FormView
+from .forms import CustomSignupForm, RegisterNewMemberForm,CustomLoginForm
+from allauth.account.views import SignupView,LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
@@ -22,10 +22,13 @@ class CustomSignupView(SignupView):
 class RegisterNewMemberView(LoginRequiredMixin, SignupView):
     form_class = RegisterNewMemberForm
     success_url = reverse_lazy("organization_members")
+    template_name = 'new_member.html'
 
     def form_valid(self, form):
         # Cria o usuário e associa à organização
         user = form.save(self.request)
+        
+        role = form.cleaned_data['role','member']
         
         # Associa à organização do usuário logado
         user.organization = self.request.user.organization
@@ -35,19 +38,17 @@ class RegisterNewMemberView(LoginRequiredMixin, SignupView):
         MemberShip.objects.create(
             user=user,
             organization=user.organization,
-            role='member'
+            role=role
         )
         
         return super().form_valid(form)
 
-def CustomLoginView(request):
+class CustomLoginView(LoginView):
+    form_class = CustomLoginForm
+    template_name = 'login.html'
+    success_url = 'organization_members'
 
-    # buscar todos os membros dentro de uma equipe
-    members = MemberShip.objects.filter(organization=request.user.organization)
-
-
-
-    print(members)
-    return render(request, 'members.html',{'membros':members})
-    
+    def form_valid(self, form):
+        self.request.session["welcome_message"] = f"Bem-vindo, {form.cleaned_data['login']}!"
+        return super().form_valid(form)
 

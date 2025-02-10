@@ -4,11 +4,16 @@ from django.contrib.auth import get_user_model
 from .models import Organization, MemberShip
 
 class CustomLoginForm(LoginForm):
+
+    field_order = ['login', 'password']
+
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['login'].label = 'Email'
         self.fields['password'].label = 'Senha'
+
+    
     
 
 User = get_user_model() 
@@ -63,7 +68,12 @@ class CustomSignupForm(SignupForm):
 
 
 class RegisterNewMemberForm(forms.ModelForm):
-    # Herdamos de SignupForm do allauth, não do formulário customizado original
+
+    role = forms.ChoiceField(
+        choices=MemberShip.roles,
+        widget=forms.RadioSelect
+    )
+
     email = forms.EmailField(
         max_length=254,
         required=True,
