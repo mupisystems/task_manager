@@ -1,22 +1,93 @@
 from django import forms
-from .models import UserProfile
-from allauth.account.forms import SignupForm
+from allauth.account.forms import SignupForm,LoginForm
+from django.contrib.auth import get_user_model
+from .models import Organization, MemberShip
 
-class UserProfileForm(SignupForm):
-
-    class Meta:
-        model = UserProfile
-        fields = ['username', 'email', 'full_name']
+class CustomLoginForm(LoginForm):
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['login'].label = 'Email'
+        self.fields['password'].label = 'Senha'
+    
+
+User = get_user_model() 
+
+class CustomSignupForm(SignupForm):
+    organization_name = forms.CharField(
+        max_length=255, 
+        required=True, 
+        label="Nome da Organização:"
+    )
+
+    
+    field_order = ['organization_name', 'email', 'password1', 'password2']
+
+    email = forms.EmailField(
+        max_length=254, 
+        required=True, 
+        label="Email:"
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['autofocus'] = True
+        self.fields['email'].widget.attrs['placeholder'] = 'Digite seu email'
+        self.fields['organization_name'].widget.attrs['placeholder'] = 'Nome da sua organização'
+
+
     def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if UserProfile.objects.filter(email=email).exists():
-            raise forms.ValidationError('Este email já está em uso. Escolha outro.')
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email ja cadastrado. Escolha outro")
+        return email
+    
+    def clean_organization_name(self):
+        organization_name = self.cleaned_data['organization_name']
+        if Organization.objects.filter(name=organization_name).exists():
+            raise forms.ValidationError("Organização ja cadastrada. Escolha outra")
+        return organization_name
+        
+
+
+
+    def save(self, request):
+        user = super().save(request)
+        user.username = self.cleaned_data['email']
+        user.email = self.cleaned_data['email']
+        org = Organization.objects.create(name=self.cleaned_data['organization_name'],owner=user)
+        user.organization = org
+        MemberShip.objects.create(user=user, organization=org, role='master')
+        user.save()
+        return user
+
+
+class RegisterNewMemberForm(forms.ModelForm):
+    # Herdamos de SignupForm do allauth, não do formulário customizado original
+    email = forms.EmailField(
+        max_length=254,
+        required=True,
+        label="Email:",
+        widget=forms.EmailInput(attrs={
+            'autofocus': True,
+            'placeholder': 'Email do novo usuário'
+        })
+    )
+
+    field_order = ['email', 'password1', 'password2']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Este email já está cadastrado.")
         return email
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if UserProfile.objects.filter(username=username).exists():
-            raise forms.ValidationError('Este username já está em uso. Escolha outro.')
-        return username
-    
+    def save(self, request):
+        user = super().save(request)
+        user.username = self.cleaned_data['email']
+        user.email = self.cleaned_data['email']
+        return user 

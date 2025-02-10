@@ -1,47 +1,53 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import UserProfileForm
-from .models import Organization
+from .forms import CustomSignupForm, RegisterNewMemberForm
+from allauth.account.views import SignupView,FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.urls import reverse_lazy
+from .models import Organization, MemberShip
+from django.contrib import messages
 
-def cadastro(request):
+
+class CustomSignupView(SignupView):
+    form_class = CustomSignupForm  
+    success_url = reverse_lazy("organization_members") 
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # self.request.session["welcome_message"] = f"Bem-vindo, {form.cleaned_data['username']}!"
+        messages.success(self.request, f"Obrigado por se cadastrar. Agora vocé poderá fazer login.")
+        return response
+
+class RegisterNewMemberView(LoginRequiredMixin, SignupView):
+    form_class = RegisterNewMemberForm
+    success_url = reverse_lazy("organization_members")
+
+    def form_valid(self, form):
+        # Cria o usuário e associa à organização
+        user = form.save(self.request)
+        
+        # Associa à organização do usuário logado
+        user.organization = self.request.user.organization
+        user.save()
+        
+        # Cria o vínculo como membro
+        MemberShip.objects.create(
+            user=user,
+            organization=user.organization,
+            role='member'
+        )
+        
+        return super().form_valid(form)
+
+def CustomLoginView(request):
+
+    # buscar todos os membros dentro de uma equipe
+    members = MemberShip.objects.filter(organization=request.user.organization)
 
 
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST)
 
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-
-        if password1 != password2:
-            return render(request, 'registro.html', {'form': form,'error':'As senhas não coincidem'})
-
-        if form.is_valid():
-            # owner = UserProfile.objects.filter(email="luiz@gmail.com").first()
-            # org = Organization.objects.filter(owner=owner).first()
-            user = form.save()
-            user.set_password(password1)
-            org = Organization.objects.create(name=f"Organização de {user.username}", owner=user)
-            org.members.add(user)
-            user.organization = org
-            user.save()
-            return HttpResponse("Okay, criado")
-        else:
-            return render(request, 'registro.html', {'form': form})
-
-    else:
-        form = UserProfileForm()
+    print(members)
+    return render(request, 'members.html',{'membros':members})
     
-    return render(request, 'registro.html', {'form': form})
-
-
-
-def showOrganizationMembers(request):
-    # Obtenha a organização do usuário logado
-    user = request.user
-    organization = user.organization
-
-    # Obtenha membros da organização
-    members = organization.members.all()
-
-    return render(request, 'members.html', {'members': members})
 

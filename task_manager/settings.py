@@ -19,16 +19,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)**b66u5g7v(kv-b1lzn)c6s#*+cz_6rzcm0r%ox!3t6iwnyho'
+SECRET_KEY = 'django-insecure-cjilavz!2pkb1+g++ks3+*l6agds0g)_mrk7=%^j94tr+naiu('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/teste/organization/members' 
-ACCOUNT_LOGOUT_REDIRECT_URL  = '/accounts/login/' 
+LOGIN_REDIRECT_URL = '/teste/home' 
+ACCOUNT_LOGOUT_REDIRECT_URL  = '/accounts/signup'
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.CustomSignupForm',
+    'login': 'users.forms.CustomLoginForm',
+    'reset_password': 'users.forms.ResetPasswordCustomForm',
+}
 
 
 
@@ -37,18 +43,24 @@ AUTH_USER_MODEL = 'users.UserProfile'
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'django.contrib.admin',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'debug_toolbar',
+    'crispy_forms',
+    "crispy_bootstrap5",
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+# CRISPY_TEMPLATE_PACK = 'uni_form'
+
 
 SITE_ID = 1
 
@@ -64,6 +76,10 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     
 ]
+
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
 
 ROOT_URLCONF = 'task_manager.urls'
 
@@ -96,8 +112,12 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'task_manager',
+        'USER':'mupi',
+        'PASSWORD':'mupi2025',
+        'host':'localhost',
+        'port':'5432'
     }
 }
 

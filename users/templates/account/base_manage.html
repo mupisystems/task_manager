@@ -6,11 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Meu Site{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-    <header>
+    <header class="text-bg-primary">
         <nav>
             <ul>
                 <li><a href="#">Início</a></li>
@@ -26,6 +25,21 @@
     </header>
 
     <main>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <div {% if message.tags %}class="alert alert-{{ message.tags }} alert-dismissible fade show"{% endif %} role="alert">
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
         {% block content %}
         <!-- O conteúdo das páginas será inserido aqui -->
         {% endblock %}

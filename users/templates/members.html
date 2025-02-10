@@ -1,22 +1,25 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Membros da Organização</title>
-</head>
-<body>
-    <h1>Membros da Organização {{user.organization}}</h1>
-    
-    {% if members %}
-        <ul>
-            {% for member in members %}
-                <li>{{ member.username }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Não há membros na organização.</p>
-    {% endif %}
+{% extends "base.html" %}
+{% block content %}
 
-</body>
-</html>
+<div class="container vh-100 w-50 d-flex justify-content-center align-items-center bg-light">
+        {% if membros %}
+        <div class="container w-50 bg-secondary p-3">
+
+            {% for member in membros %}
+            <h2 class="text-center mb-4">Membros da equipe de {{ member.organization}}</h2>
+            {% endfor %}
+            <ul class="list-group">
+                {% for member in membros %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ member.user.username }}
+                        <span class="badge bg-primary rounded-pill">{{ member.role }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+            <p>Não há membros na organização.</p>
+        {% endif %} 
+</div>
+{% endblock %}
+
