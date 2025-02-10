@@ -11,7 +11,7 @@
 
 
 
-<main class="main-content main-content-bg mt-0">
+<main class="main-content main-content-bg mt-0 vh-100">
     <section>
       <div class="page-header min-vh-75">
         <div class="container">
@@ -19,8 +19,8 @@
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-8 p-3">
                 <div class="card-header pb-0 text-start">
-                  <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
-                  <p class="mb-0">Enter your email and password to sign in</p>
+                  <h3 class="font-weight-bolder text-info text-gradient">Bem-vindo novamente</h3>
+                  <p class="mb-0">Digite seu email e sua senha para entrar</p>
                 </div>
                 <div class="card-body">
                     <form action="{% url 'account_login' %}" method="post">
@@ -29,14 +29,14 @@
             
                         {{ form|crispy }}
             
-                        <input type="submit" class='btn w-100 btn-info' value="Entrar">
+                        <button type="submit" class="btn w-100 bg-gradient-info">Entrar</button>
             
                     </form> 
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <a href="{% url 'account_signup' %}" class="text-info text-gradient font-weight-bold">Sign up</a>
+                    Não possui uma conta?
+                    <a href="{% url 'account_signup' %}" class="text-info text-gradient font-weight-bold">Registrar</a>
                   </p>
                 </div>
               </div>

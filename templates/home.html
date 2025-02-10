@@ -3,6 +3,15 @@
 {% block title %}Home - Task Manager{% endblock %}
 
 {% block content %}
-<h1>Projeto de Onboarding!</h1>
-<p>Conteúdo da página inicial...</p>
+    <h1>Projeto de Onboarding!</h1>
+    <p>Lista de membros da organização:</p>
+
+    <ul>
+        {% for member in members %}
+            <li>{{ member.user.email }} - {{ member.get_role_display }}</li>
+        {% empty %}
+            <li>Nenhum membro cadastrado.</li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}

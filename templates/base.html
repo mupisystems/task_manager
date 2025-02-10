@@ -1,23 +1,108 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Gerenciamento de Tarefas{% endblock %}</title>
     <!-- Link para o CSS do tema -->
     <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'soft-ui/css/nucleo-svg.css' %}">
+    <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.min' %}">
+    <link rel="stylesheet" href="{% static 'soft-ui/css/nucleo-icons.css' %}">
     <!-- Outros arquivos CSS podem ser adicionados aqui -->
     {% block extra_css %}{% endblock %}
 </head>
-<body>
-    <!-- Conteúdo principal -->
-    {% block content %}
-    <!-- Aqui serão inseridos os conteúdos das páginas -->
-    {% endblock %}
+
+<body class="g-sidenav-show bg-white-300">
+    {% if user.is_authenticated %}
+    {% include "sidebar.html" %}
+    {% endif %}
+
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+        {# Navbar #}
+        <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    
+                    <h3 class="font-weight-bolder mb-0"></h3>
+                    <!-- TODO: testar incluir mensagens -->
+                     <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none">
+                    <a href="#" class="nav-link text-body pt-1">
+                        <div class="sidenav-toggler-inner">
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                        </div>
+                    </a>
+                </div>
+                </nav>
+                
+            </div>
+        </nav>
+        <div class="container-fluid py-4 mt-5">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <footer class="footer mt-auto pt-3">
+            <div class="">
+                <div class="row align-items-center">
+                    <div class="mb-2">
+                        <div class="copyright text-center text-sm text-muted">
+                            © <script>document.write(new Date().getFullYear())</script>,
+                            desenvolvido por
+                            <a href="https://mupisystems.com.br" class="font-weight-bold" target="_blank">Mupi Systems</a>
+                            .
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {% block modal %}
+        {% endblock modal %}
+    </main>
+    <div class="fixed-plugin">
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            {% for message in messages %}
+                <div class="toast {{ message.tags }} align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="60000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% block floating_button %}
+        {% endblock floating_button %}
+        {% if filter_form %}
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
+                <div class="offcanvas-header">
+                    <h3 class="offcanvas-title" id="offcanvasFilterLabel">Filtrar Itens</h3>
+                    <button type="button" class="btn-close text-reset text-dark" data-bs-dismiss="offcanvas" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="offcanvas-footer px-4 row">
+                    <div class="col-6">
+                        <a href="{{request.path}}" class="btn btn-md bg-gradient-secondary w-100">Limpar Filtros</a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" form="filter-form" class="btn btn-md bg-gradient-primary w-100">Filtrar</button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 
     <!-- Scripts do tema -->
     <script src="{% static 'soft-ui/js/soft-ui-dashboard.js' %}"></script>
+    <script src="{% static 'soft-ui/js/soft-ui-dashboard.js.map' %}"></script>
+    <script src="{% static 'soft-ui/js/soft-ui-dashboard.min.js' %}"></script>
     <!-- Outros scripts podem ser adicionados aqui -->
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+

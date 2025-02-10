@@ -5,6 +5,8 @@ from .models import Organization, MemberShip
 
 class CustomLoginForm(LoginForm):
 
+
+
     field_order = ['login', 'password']
 
     
@@ -67,11 +69,13 @@ class CustomSignupForm(SignupForm):
         return user
 
 
-class RegisterNewMemberForm(forms.ModelForm):
+class RegisterNewMemberForm(SignupForm):
 
+    print(MemberShip.roles)
     role = forms.ChoiceField(
-        choices=MemberShip.roles,
-        widget=forms.RadioSelect
+        choices=[('member', 'Membro'), ('admin', 'Admin')],
+        widget=forms.RadioSelect,
+        label='Cargo'
     )
 
     email = forms.EmailField(
