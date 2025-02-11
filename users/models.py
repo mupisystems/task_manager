@@ -6,7 +6,7 @@ class UserProfile(AbstractUser):
     class Meta:
         db_table = 'auth_user'
 
-    username = models.CharField(max_length=255, unique=True)
+    username = models.CharField(max_length=255, unique=False)
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE, null=True, blank=True, related_name="profile")
@@ -28,9 +28,9 @@ class Organization(models.Model):
 class MemberShip(models.Model):
 
     roles = [
-        ('master', 'Master'),
-        ('admin', 'Admin'),
-        ('member', 'Member')    
+        ('master', 'Proprietário'),
+        ('admin', 'Administrador'),
+        ('member', 'Colaborador')    
     ]
     is_active = models.BooleanField(default=True)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="user_membership")

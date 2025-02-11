@@ -2,16 +2,120 @@
 
 {% block title %}Home - Task Manager{% endblock %}
 
-{% block content %}
-    <h1>Projeto de Onboarding!</h1>
-    <p>Lista de membros da organização:</p>
 
-    <ul>
-        {% for member in members %}
-            <li>{{ member.user.email }} - {{ member.get_role_display }}</li>
-        {% empty %}
-            <li>Nenhum membro cadastrado.</li>
-        {% endfor %}
-    </ul>
+{% block content %}
+    <div class="d-flex justify-content-between  align-items-center">
+        <div>
+            <h2>Membros da organização</h2>
+            <p>Lista de membros da organização:</p>
+        </div>
+        {% if user.organization.owner.username == user.username or is_admin %}
+                <a href="{% url 'create_new_member' %}" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Adicionar Membros
+                </a>
+        {% endif %}
+        
+        
+        
+
+        
+    </div>
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Membro</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Cargo</th>
+                    <th class="text-secondary opacity-7">Organização</th>
+                    {% if user.organization.owner == user %}
+                        <th class="text-secondary opacity-7"></th>
+                        <th class="text-secondary opacity-7"></th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                    {% if user.username == member.user.username %}
+                                        <h6 class="mb-0">{{ member.user.username }} <span class=" badge badge-sm badge-success">(Você)</span></h6>
+                                        <p class="text-xs text-secondary mb-0">{{ member.user.email }}</p>
+                                    {% else %}
+                                        <h6 class="mb-0">{{ member.user.username }}</h6>
+                                        <p class="text-xs text-secondary mb-0">{{ member.user.email }}</p>
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0">{{ member.get_role_display }}</p>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0">{{ member.user.organization}}</p>
+                        </td>
+                        
+                        {% if user.organization.owner.username == user.username or is_admin%}
+                        <td class="align-middle">
+                        </td>
+                            {% if user.organization.owner.username == member.user.username%}
+                                <td class="align-middle">
+                                </td>
+                                <td class="align-middle">
+                                </td>
+                            {% else %}
+                                <td class="align-middle">
+                                    <a href="{% url 'edit_member' member.pk %}" class="btn-sm btn-success btn" data-toggle="tooltip" data-original-title="Edit user">
+                                        Editar
+                                    </a>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="javascript:;" class="text-xs btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Edit user">
+                                        Deletar
+                                    </a>
+                                </td>
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nenhum membro cadastrado.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    <div class="pagination mt-3">
+        <nav>
+
+            <ul class="pagination">
+                {% if members.has_previous %}
+                    <li class="page-item">
+                        <a class="mx-3" href="?page=1">Primeira</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="mx-3" href="?page={{ members.previous_page_number }}">Anterior</a>
+                    </li>
+                {% endif %}
+
+                <li class="">
+                    <span class="mx-1">Página {{ members.number }} de {{ members.paginator.num_pages }}</span>
+                </li>
+
+                {% if members.has_next %}
+                    <li class="mx-3">
+                        <a class="" href="?page={{ members.next_page_number }}">Próxima</a>
+                    </li>
+                    <li class="mx-1">
+                        <a class="" href="?page={{ members.paginator.num_pages }}">Ultima</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
 
 {% endblock %}

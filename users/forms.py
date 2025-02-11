@@ -26,9 +26,14 @@ class CustomSignupForm(SignupForm):
         required=True, 
         label="Nome da Organização:"
     )
+    full_name = forms.CharField(
+        max_length=255, 
+        required=True, 
+        label="Nome completo:"
+    )
 
     
-    field_order = ['organization_name', 'email', 'password1', 'password2']
+    field_order = ['organization_name','full_name', 'email', 'password1', 'password2']
 
     email = forms.EmailField(
         max_length=254, 
@@ -40,6 +45,7 @@ class CustomSignupForm(SignupForm):
         super().__init__(*args, **kwargs)
         self.fields['email'].widget.attrs['autofocus'] = True
         self.fields['email'].widget.attrs['placeholder'] = 'Digite seu email'
+        self.fields['full_name'].widget.attrs['placeholder'] = 'Digite seu nome completo'
         self.fields['organization_name'].widget.attrs['placeholder'] = 'Nome da sua organização'
 
 
@@ -60,7 +66,7 @@ class CustomSignupForm(SignupForm):
 
     def save(self, request):
         user = super().save(request)
-        user.username = self.cleaned_data['email']
+        user.username = self.cleaned_data['full_name']
         user.email = self.cleaned_data['email']
         org = Organization.objects.create(name=self.cleaned_data['organization_name'],owner=user)
         user.organization = org
@@ -102,6 +108,7 @@ class RegisterNewMemberForm(SignupForm):
 
     def save(self, request):
         user = super().save(request)
-        user.username = self.cleaned_data['email']
+        user.username = self.cleaned_data['username']
         user.email = self.cleaned_data['email']
         return user 
+    

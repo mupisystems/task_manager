@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'soft-ui/css/nucleo-svg.css' %}">
     <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.min' %}">
+    <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css.map' %}">
     <link rel="stylesheet" href="{% static 'soft-ui/css/nucleo-icons.css' %}">
     <!-- Outros arquivos CSS podem ser adicionados aqui -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -21,7 +22,6 @@
     {% endif %}
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-        {# Navbar #}
         <nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
@@ -101,8 +101,24 @@
     <script src="{% static 'soft-ui/js/soft-ui-dashboard.js' %}"></script>
     <script src="{% static 'soft-ui/js/soft-ui-dashboard.js.map' %}"></script>
     <script src="{% static 'soft-ui/js/soft-ui-dashboard.min.js' %}"></script>
+
     <!-- Outros scripts podem ser adicionados aqui -->
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const links = document.querySelectorAll("aside li a");
+                const currentPath = window.location.pathname;
+
+                links.forEach(link => {
+                    const linkHref = new URL(link.getAttribute("href"), window.location.origin).pathname;
+                    if (linkHref === currentPath) {
+                        link.classList.add("active");
+                    }
+                });
+            });
+        </script>
+    {% endblock %}
+
 </body>
 </html>
 
