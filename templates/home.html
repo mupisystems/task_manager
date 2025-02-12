@@ -60,7 +60,7 @@
                         {% if user.organization.owner.username == user.username or is_admin%}
                         <td class="align-middle">
                         </td>
-                            {% if user.organization.owner.username == member.user.username%}
+                            {% if user.organization.owner.username == member.user.username or user.username == member.user.username%}
                                 <td class="align-middle">
                                 </td>
                                 <td class="align-middle">

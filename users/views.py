@@ -1,11 +1,13 @@
 from urllib import request
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.core.paginator import Paginator
 from .forms import CustomSignupForm, RegisterNewMemberForm,CustomLoginForm
 from allauth.account.views import SignupView,LoginView
-from django.views.generic import ListView, FormView, UpdateView
+from django.views.generic import ListView, FormView, UpdateView,View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
+from django.core.exceptions import ValidationError
 from .models import Organization, MemberShip,UserProfile
 from django.contrib import messages
 
@@ -25,23 +27,19 @@ class RegisterNewMemberView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy("organization_members")
     template_name = 'new_member.html'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['organization'] = self.request.user.organization  # Passa a organização para o formulário
+        return kwargs
+
     def form_valid(self, form):
-        # Cria o usuário e associa à organização
-        user = form.save(self.request)
-        
-        role = form.cleaned_data.get('role','member')
-        
-        # Associa à organização do usuário logado
-        user.organization = self.request.user.organization
-        user.save()
-        
-        # Cria o vínculo como membro
-        MemberShip.objects.create(
-            user=user,
-            organization=user.organization,
-            role=role
-        )
-        
+        try:
+            form.save()
+        except ValidationError as e:
+            # Adiciona o erro ao formulário para ser renderizado no template
+            form.add_error(None, e)
+            return self.form_invalid(form)
+
         return super().form_valid(form)
 
 class CustomLoginView(LoginView):
@@ -58,7 +56,7 @@ class ListMembersView(LoginRequiredMixin, ListView):
     model = MemberShip
     template_name = 'home.html'
     context_object_name = 'members'
-    paginate_by = 10  # Número de membros por página
+    paginate_by = 6  # Número de membros por página
 
     def get_queryset(self):
         # Filtra apenas os membros da mesma organização e ordena por nome de usuário
@@ -113,3 +111,31 @@ class UpdateUserView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             ('member', 'Colaborador')
         ]
         return form
+    
+class ChangeUserTeamView(LoginRequiredMixin, ListView):
+    model = Organization
+    template_name = "change_team.html"
+    context_object_name = "organizations"
+
+    def get_queryset(self):
+        """Retorna todas as organizações das quais o usuário faz parte"""
+        return Organization.objects.filter(org_membership__user=self.request.user)
+
+class UpdateUserOrganizationView(LoginRequiredMixin, View):
+    """Atualiza a organização ativa do usuário"""
+    def post(self, request, *args, **kwargs):
+        org_id = self.kwargs.get("org_id")
+        print(Organization)
+        organization = get_object_or_404(Organization, id=org_id)
+        print(organization)
+
+        # Verifica se o usuário faz parte da organização
+        if not MemberShip.objects.filter(user=request.user, organization=organization).exists():
+            return HttpResponseForbidden("Você não tem acesso a esta organização.")
+
+        # Atualiza a organização ativa do usuário
+        request.user.organization = organization
+        request.user.save()
+
+        messages.success(request, f"Agora você está na equipe {organization.name}.")
+        return redirect("change_team")  # Redireciona para a lista de equipes

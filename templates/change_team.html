@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container w-50">
+    <h2>Trocar de Equipe</h2>
+    
+    {% if organizations %}
+        <ul class="list-group">
+            {% for org in organizations %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ org.name }}
+                    <form action="{% url 'update_user_organization' org.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn m-0 btn-primary">Selecionar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Você não faz parte de nenhuma equipe.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
