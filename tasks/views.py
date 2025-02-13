@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -5,34 +6,27 @@ from django.urls import reverse_lazy
 from .forms import TaskForm
 from .models import Task
 
+# ----------------------------------------
 class TaskListView(ListView):
     model = Task
-    template_name = 'tasks/home.html'
     context_object_name = 'tasks'
-    ordering = ['-created_at']
-
-
-class TaskDetailView(DetailView):
-	model = Task
-	template_name = 'tasks/details.html'
-	context_object_name = 'task'
-	pk_url_kwarg = 'custom_pk'
+    template_name = 'home.html'
 
 
 class TaskCreateView(CreateView):
+    template_name = 'tasks/task_create.html'
     model = Task
-    success_url = reverse_lazy('tasks')
-    template_name = 'tasks/create.html'
     form_class = TaskForm
+    success_url = reverse_lazy('task_list')
 
-class TaskUpdateView(UpdateView):
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+    
+class TaskDetailView(DetailView):
     model = Task
-    fields = ['title', 'description', 'due_date', 'status']
-    success_url = reverse_lazy('tasks')
+    template_name = 'tasks/task_detail.html'
+    context_object_name = 'task' 
 
-
-class TaskDeleteView(DeleteView):
-    model = Task
-    template_name = 'tasks/delete.html'
-    context_object_name = 'task'
-    pk_url_kwarg = 'custom_pk'

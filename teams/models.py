@@ -1,24 +1,20 @@
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 
 class User(AbstractUser):
     is_active = models.BooleanField(default=True)
+    current_team = models.ForeignKey('Team', null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.username
-    
+        return self.email
+
+
+
 class Team(models.Model):
-    HIERARQUIA = [
-        ("Administrador", "Administrador"),
-        ("Proprietário", "Proprietário"),
-        ("Colaborador", "Colaborador"),
-    ]
-    
-    team_name = models.CharField(max_length=60)
-    owner = models.ForeignKey("teams.User", blank=False, default='USERNAME', on_delete=models.CASCADE, to_field='username')
+    team_name = models.CharField(max_length=60, unique=True, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
-    user_type = models.CharField(max_length=13, choices=HIERARQUIA, default="Colaborador")
 
     def save(self, *args, **kwargs):
         if not self.slug:  
@@ -27,3 +23,30 @@ class Team(models.Model):
 
     def __str__(self):
         return self.team_name
+    
+
+
+class Membership(models.Model):
+    HIERARQUIA = [
+        ("Proprietário", "Proprietário"),
+        ("Administrador", "Administrador"),
+        ("Colaborador", "Colaborador"),
+    ]
+    is_active = models.BooleanField(default=True)
+    members = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING, related_name='membership')
+    # member_name = models.ForeignKey(User.first_name, blank=True, null=True, on_delete=models.SET_NULL)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    user_type = models.CharField(max_length=15, choices=HIERARQUIA, default="Colaborador")
+
+    
+    def __str__(self):
+        return f' {self.members} cargo: {self.user_type}'
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            if not self.members and not self.members.current_team:
+                self.members.current_team = self.team
+                self.members.save()
+
+        
+        super(Membership, self).save(*args, **kwargs)

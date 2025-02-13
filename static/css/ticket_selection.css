@@ -1,0 +1,12 @@
+.clockdate {
+    font-size: 2vh;
+    font-weight: bold;
+    display: inline;
+}
+
+.clocktime {
+    font-size: 2vh;
+    font-weight: bold;
+    display: inline;
+    margin-left: 20px;
+}

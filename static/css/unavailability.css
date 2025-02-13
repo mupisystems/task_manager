@@ -1,0 +1,14 @@
+#status{
+    font-weight: bolder;
+}
+
+#protocol{
+    font-weight: bold;
+}
+.protocols{
+    list-style-type: circle;
+}
+
+li {
+    width: 100%;
+}

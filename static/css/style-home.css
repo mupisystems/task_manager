@@ -1,0 +1,171 @@
+*{
+    box-sizing: border-box;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: #f9f9f9;
+}
+
+#home{
+    margin-top: 50px;
+}
+
+.navbar-default{
+    background: #fff;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.35);
+}
+
+.navbar-brand{
+    padding: 10px 20px 0 20px !important;
+    font-size: 28px !important;
+    margin: 0;
+    color: #5a5af3 !important;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: "Poppins", sans-serif;
+}
+.navbar-brand a{
+    text-decoration: none;
+}
+
+.logo-head-2{
+    padding: 5px 0 0 0 !important;
+}
+
+.logo-head-2 img{
+    height: 40px;
+    width: auto;
+}
+
+.title-input-head{
+    display: inline-block;
+    color: #606060;
+}
+
+.icons-head{
+    padding: 10px 15px !important;
+}
+
+.icon-head-password{
+    padding: 10px 0 !important;
+}
+
+.icons-head img{
+    height: 30px;
+}
+
+.input-head input{
+    width: 55px !important;
+}
+
+.badge{
+    position: absolute;
+    background: red;
+    color: #fff;
+    border-radius: 50%;
+    top: 5px;
+    left: 27px;
+}
+
+.circle-login{
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    border-radius: 50%;
+    background-size: cover;
+    padding: 0;
+    margin: 5px 0 0 5px;
+}
+
+.circle-login img{
+    height: 40px;
+    width: 40px;
+    border-radius: 50px;
+}
+
+.navbar-default #circle>.open>a, .navbar-default #circle>.open>a:focus, .navbar-default #circle>.open>a:hover{
+    background-color: transparent;
+}
+
+.no-padding-nav{
+    padding: 0 !important;
+}
+
+.dropdown-menu-text{
+    text-align: right;
+}
+
+.container-icons{
+    background: #eee;
+    padding: 30px;
+    text-align: center;
+    color: #2a306e;
+    border-radius: 5px;
+    min-height: 233px;
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.text-icon{
+    font-size: 14px;
+    color: #2a306e;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-top: 20px;
+}
+
+.container-login{
+    margin: 30px;
+}
+
+.capitalize {
+   text-transform: capitalize;
+}
+
+.barra-busca{
+    padding: 10px;
+}
+.search-line{
+    display: flex;
+}
+.search-date{
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+.active{
+
+    padding-left: 10px;
+}
+#searchField{
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+@media (max-width: 600px)
+{
+.search-date {
+display: none;
+}
+.label-search{
+   display: none;
+}
+
+}

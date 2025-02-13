@@ -1,0 +1,274 @@
+#result_property > div{
+    height: 45px;
+    border: 1px solid #cccccc;
+}
+#result_property > div > button{
+    float: right;
+    height: 45px;
+}
+#result_property > div > span{
+    position: relative;
+    top: 15px;
+    left: 10px;
+}
+#modal_header, .modal_header{
+    background: #dddddd;
+    height: 20px;
+    padding: 15px;
+    border: 1px solid #cccccc;
+    text-transform: uppercase;
+}
+#result_property p > input, #result_form_add_property p > input{
+    height: 40px;
+    width: 150px;
+}
+#result_property p, #result_form_add_property p{
+    height: 40px;
+    text-align: right;
+    padding: 10px 55px 0 0;
+}
+#result_property p:last-child, #result_form_add_property p:last-child, #form_add_new_property{
+    padding: 15px;
+}
+.modal_car section:last-child{
+    padding: 5px;
+}
+#id_people_div form label {
+    font-size: 14px;
+    color: #777777;
+    position: relative;
+    top: 10px;
+}
+#id_people_div form input {
+    width: 215px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 16px;
+    margin-right: 8px;
+    border: 1px solid #bbbbbb;
+    height: 40px;
+}
+#msg_error{
+    color: #ff0000;
+    float: left;
+    font-size: 12px;
+}
+
+#form_add_property #id_name, #form_add_property #id_attached_file{
+    width: 340px;
+}
+
+#id_name, #id_cpf, #id_phone, #id_email, #id_identification_number, #id_place_of_birth, #id_profession, #id_nationality{
+    border-radius: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 16px;
+    margin-right: 8px;
+    border: 1px solid #bbbbbb;
+    height: 38px;
+    width: 215px;
+}
+
+#form_add_property input{
+    float: left;
+    position: relative;
+    left: 20px;
+}
+#id_attached_file{
+    display: none;
+}
+.tick_cross_content1 ul{
+    clear: both;
+}
+.tick_cross_content1 ul li{
+    display: block;
+    float: none;
+}
+#msg_error_modal > .errorlist{
+    width: 350px;
+    position: relative;
+    top: -20px;
+    left: 20px;
+    float: left;
+}
+#msg_error_modal > .errorlist > li{
+    visibility: hidden;
+}
+.errorlist > li > .errorlist > li{
+    list-style: circle;
+    visibility: visible;
+    color: #ff0000;
+    font-size: 12px;
+}
+#form_add_presenter input[type=button]{
+    float: left;
+}
+.clearFloat{
+    clear: both;
+}
+.ui-menu{
+    max-width: 560px !important;
+}
+/*.modal > div{*/
+    /*top: -200px;*/
+/*}*/
+
+/*botao de + do add pessoa fisica*/
+#search-person-form .frm_container span.btn_img1{
+    left: -110px;
+}
+.closs{
+    cursor: pointer !important;
+}
+
+.title_show_content{
+    margin: 20px 20px 0;
+}
+
+.forms_none_top section{
+    margin-top: 0;
+}
+
+.forms_none_top{
+    padding-bottom: 20px;
+}
+
+.opacity_light{
+    opacity: 0.2;
+}
+.clean-anchor{
+  text-decoration: none;
+  color: black;
+}
+
+.small-input{
+    width: 70px !important;
+}
+.inline{
+    display: inline-block !important;
+}
+.truncate-select {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+select {
+    padding:0 30px 0 10px !important;
+    -webkit-padding-end: 30px !important;
+    -webkit-padding-start: 10px !important;
+}
+
+.dark-blue-btn{
+    color: #Fff;
+    border-radius: 5px;
+    border: none;
+    padding: 7px 15px;
+    background: #2a306e;
+}
+
+.subtitle{
+    padding: 10px;
+    background: #eeeeee;
+    font-size: 16px;
+    font-weight: bold;
+}
+.text-content{
+    padding: 10px;
+    font-size: 12px;
+    /*font-weight: bold;*/
+}
+
+.no-side-padding{
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+.content-panel{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    margin-top: 15px;
+    padding: 0px!important;
+}
+.panel-content{
+    padding: 15px;
+}
+
+.title-content{
+    background: #ebebeb;
+    padding: 15px;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+.title-content-no-align{
+    background: #ebebeb;
+    padding: 15px;
+}
+
+
+.first-item{
+    padding-top: 10px;
+}
+
+.last-item{
+    padding-bottom: 10px;
+}
+
+.line-height-items{
+    line-height: 30px;
+}
+.title-item{
+    font-weight: bold;
+    padding: 10px auto;
+}
+.send-btn{
+    background: #22317f;
+    color: #fff;
+    font-weight: bold;
+}
+
+.content-change-password{
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    width: 400px;
+}
+.form{
+    padding: 20px;
+}
+
+.barra-busca{
+    padding: 10px;
+}
+.search-line{
+    display: flex;
+}
+.search-date{
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+.active{
+
+    padding-left: 10px;
+}
+#searchField{
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+
+@media (max-width: 600px)
+{
+.search-date {
+display: none;
+}
+.label-search{
+   display: none;
+}
+
+}

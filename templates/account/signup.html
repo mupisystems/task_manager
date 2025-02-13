@@ -1,45 +1,44 @@
-{% extends "account/base_entrance.html" %}
+{% extends "tasks/base.html" %}
+{% load crispy_forms_tags %}
 {% load allauth i18n %}
 {% block head_title %}
+{% block title %} GTV | Registrar-se {% endblock %}
     {% trans "Signup" %}
 {% endblock head_title %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Up" %}
-    {% endelement %}
-    {% setvar link %}
-        <a href="{{ login_url }}">
-        {% endsetvar %}
-        {% setvar end_link %}
-        </a>
-    {% endsetvar %}
-    {% element p %}
-        {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
-    {% endelement %}
-    {% if not SOCIALACCOUNT_ONLY %}
-        {% url 'account_signup' as action_url %}
-        {% element form form=form method="post" action=action_url tags="entrance,signup" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
-                {% element button tags="prominent,signup" type="submit" %}
-                    {% trans "Sign Up" %}
-                {% endelement %}
-            {% endslot %}
-        {% endelement %}
-    {% endif %}
-    {% if PASSKEY_SIGNUP_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element button href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
-            {% trans "Sign up using a passkey" %}
-        {% endelement %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
+    <section>
+      <div class="page-header min-vh-75">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto" >
+              <div class="card card-plain mt-sm-8 mt-7 mt-md-5" >
+                <div class="card-header pb-0 text-left">
+                  <h3 class="font-weight-bolder text-primary text-gradient" style='text-align:center'>Gerenciador de Tarefas Virtual</h3>
+                  <p class="mb-0" style='text-align:center'>Adicione seus dados para poder se registrar</p>
+                </div>
+                
+                <div class="card-body" >        
+                    <form method='POST' class='form-control' style='box-shadow: 1px 1px 12px grey'>
+                    
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+                    <div class="text-center">
+                      <button type="submit" class="btn bg-gradient-primary w-100 mt-4 mb-0">Registrar</button>
+                    </div>
+                  </form>
+                <div class="card-footer text-center pt-0 px-sm-4 px-1">
+                  <p class="mb-4 mx-auto">
+                    Já tem uma conta?
+                    <a href={% url 'account_login' %} class="text-primary text-gradient font-weight-bold">Logar</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
 {% endblock content %}

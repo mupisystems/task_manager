@@ -1,0 +1,364 @@
+    body{
+    background: #F4F7FD;
+    margin-top:20px;
+}
+
+    h2{
+        margin: 2rem;
+    }
+
+    h3{
+        padding-top: 1.5rem;
+        font-size: 16pt;
+    }
+.card-margin {
+    max-width: 750px;
+    margin-left: 5rem;
+    margin-bottom: 1.875rem;
+}
+
+.card {
+    border: 0;
+    box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+    -ms-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: border-box;
+    border: 1px solid #e6e4e9;
+    border-radius: 16px;
+}
+
+.card .card-header.no-border {
+    border: 0;
+}
+.card .card-header {
+    background: none;
+    padding: 0 0.9375rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+}
+.card-header:first-child {
+    border-radius: calc(8px - 1px) calc(8px - 1px) 0 0;
+}
+
+.widget-follow .widget-follow-title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #edf1fc;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-primary .widget-follow-date-day {
+  color: #4e73e5;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-primary .widget-follow-date-month {
+  color: #4e73e5;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #fcfcfd;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-secondary .widget-follow-date-day {
+  color: #dde1e9;
+  font-weight: 500;
+  font-size:1rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-secondary .widget-follow-date-month {
+  color: #dde1e9;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #e8faf8;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-success .widget-follow-date-day {
+  color: #17d1bd;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-success .widget-follow-date-month {
+  color: #17d1bd;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #ebf7ff;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-info .widget-follow-date-day {
+  color: #36afff;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-info .widget-follow-date-month {
+  color: #36afff;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-warning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(255, 170, 0, 0.21);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-warning .widget-follow-date-day {
+  color: #f3b539;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-warning .widget-follow-date-month {
+  color: #FFC868;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-danger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #feeeef;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-danger .widget-follow-date-day {
+  color: #F95062;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-danger .widget-follow-date-month {
+  color: #F95062;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-light {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #fefeff;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-light .widget-follow-date-day {
+  color: #f7f9fa;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-light .widget-follow-date-month {
+  color: #f7f9fa;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-dark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #ebedee;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-dark .widget-follow-date-day {
+  color: #394856;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-dark .widget-follow-date-month {
+  color: #394856;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #f0fafb;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-base .widget-follow-date-day {
+  color: #68CBD7;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-date-base .widget-follow-date-month {
+  color: #68CBD7;
+  line-height: 1;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-meeting-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-meeting-info .widget-follow-pro-title {
+  color: #3c4142;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.widget-follow .widget-follow-title-wrapper .widget-follow-meeting-info .widget-follow-meeting-time {
+  color: #343a40cc;
+  font-size: 13px;
+}
+
+.widget-follow .widget-follow-meeting-points {
+  font-weight: 400;
+  font-size: 13px;
+  margin-top: .5rem;
+}
+
+.widget-follow .widget-follow-meeting-points .widget-follow-meeting-item {
+  color: #343a40cc;
+}
+
+.widget-follow .widget-follow-meeting-points .widget-follow-meeting-item span {
+  margin-left: .5rem;
+}
+
+.widget-follow .widget-follow-meeting-action {
+  text-align: right;
+}
+
+.widget-follow .widget-follow-meeting-action a {
+  text-transform: uppercase;
+}
+
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 20px; /* Location of the box */
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+        margin: 10px 10px 10px 5rem;
+        border: 1px solid #888;
+        height: 85%;
+        width: 90%;
+        position: absolute;
+        display: block;
+
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 38px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+iframe{
+                overflow-y: auto;
+            overflow-x: hidden;
+}

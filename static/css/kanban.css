@@ -1,0 +1,150 @@
+*{
+    box-sizing: border-box;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: #f9f9f9;
+    color: #3c3c3c;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.navigation-page{
+    margin-top: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.gray-color{
+    color: #aaa;
+}
+
+.blue-color{
+    color: #2a306e;
+}
+
+.pesquisar-btn{
+    color: #Fff;
+    border-radius: 5px;
+    border: none;
+    padding: 7px 15px;
+    background: #2a306e;
+}
+
+.content{
+    margin-top: 5px;
+    overflow-y: auto;
+}
+
+.kanban-column > div{
+    width: 215px;
+    height: 75px;
+}
+.kanban-column{
+    width: 128px;
+    display: table-cell;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background: #fff;
+}
+
+.kanban-column:first-child{
+    border-left: 1px solid #ccc;
+}
+
+.content-title-kanban{
+    background: #003563;
+    color: #fff;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.number-kanban{
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.title-kanban{
+    font-size: 16px;
+    text-align: center;
+}
+
+.card{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 30px 10px;
+    text-align: center;
+    position: relative;
+    background: #Fff;
+    color: black !important;
+}
+.card *{
+    color: black !important;
+}
+
+.card-view *{
+    color: #fff !important;
+}
+.card-view{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 30px 10px;
+    text-align: center;
+    position: relative;
+    color: #fff !important;
+    background: #003563;
+}
+
+.photo{
+    position: absolute;
+    right: -10px;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.photo i{
+    display: none;
+}
+
+.photo:hover i{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #003563;
+    border-radius: 50%;
+    display: block;
+    color: #fff;
+    background: #003563;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+
+.photo-view{
+    position: absolute;
+    right: -10px;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: #fff;
+    background-size: 30px 30px !important;
+}
+
+.bold{
+    font-weight: bold;
+}

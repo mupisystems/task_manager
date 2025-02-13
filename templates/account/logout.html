@@ -1,25 +1,38 @@
-{% extends "account/base_manage.html" %}
+{% extends "tasks/base.html" %}
 {% load allauth i18n %}
 {% block head_title %}
-    {% trans "Sign Out" %}
+    {% trans "GTV | Logout" %}
 {% endblock head_title %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Out" %}
-    {% endelement %}
-    {% element p %}
-        {% trans 'Are you sure you want to sign out?' %}
-    {% endelement %}
-    {% url 'account_logout' as action_url %}
-    {% element form method="post" action=action_url no_visible_fields=True %}
-        {% slot body %}
+
+{% element p %}
+    <div class="container text-center">
+        <div style='padding-top: 4%'>
+            <div class="row">
+                <h3 class="text-primary text-gradient font-weight-bold text-center">
+                    {% if request.user.first_name %}
+                        {{ request.user.first_name }},
+                    {% else %}
+                        {{ request.user.email }}    
+                    {% endif %}
+                </h3>
+            </div>
+
+            <div class="row">
+                <h3 class="text-center">Você tem certeza que quer sair?</h3>
+            </div>
+        </div>
+    </div>
+{% endelement %}
+
+<div class="container">
+    <div class="col-md-12 text-center">
+        <form method="post" action="/accounts/logout/">
             {% csrf_token %}
-            {{ redirect_field }}
-        {% endslot %}
-        {% slot actions %}
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
+            <input type="hidden" name="csrf_protect" value="CI64JH8RDEVRHCLFMVZB5F0gqteXdJ1bvC4hdE3ippE2ejgehEZ2Cg5tTecIzxJv">
+            <button type="submit" class="btn btn-outline-danger">Sair</button>
+        </form>
+    </div>
+</div>
+    
 {% endblock content %}
