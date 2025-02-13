@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow-sm p-4">
+        <h1 class="mb-4">Excluir Tarefa</h1>
+        
+        <p>Tem certeza que deseja excluir <strong>"{{ object.title }}"</strong>?</p>
+
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-danger">Confirmar</button>
+                <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

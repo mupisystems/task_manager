@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    
+                    <!-- Cabeçalho com ícone -->
+                    <div class="text-center mb-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-block mb-3">
+                        </div>
+                        <h4 class="mb-1">{% if object %}Editar Tarefa{% else %}Nova Tarefa{% endif %}</h4>
+                        <p class="text-muted mb-0">{% if object %}Atualize os detalhes da sua tarefa{% else %}Adicione uma nova tarefa ao seu quadro{% endif %}</p>
+                    </div>
+
+                    <!-- Formulário -->
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        {{ form|crispy }}
+
+                        <!-- Botões -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success py-3">
+                                {% if object %}Atualizar{% else %}Criar{% endif %} Tarefa
+                            </button>
+                            <a href="{% url 'task_list' %}" class="btn btn-light py-3">Cancelar</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

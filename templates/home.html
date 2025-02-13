@@ -10,9 +10,12 @@
             <p>Lista de membros da organização:</p>
         </div>
         {% if user.organization.owner.username == user.username or is_admin %}
-                <a href="{% url 'create_new_member' %}" class="btn btn-success">
-                    <i class="fas fa-user-plus"></i> Adicionar Membros
-                </a>
+                <div class="mr-3 me-3">
+                    <a href="{% url 'create_new_member' %}" class="btn btn-success">
+                        <i class="fas fa-user-plus"></i> Adicionar Membros
+                    </a>
+                </div>
+                
         {% endif %}
         
         

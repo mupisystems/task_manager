@@ -27,6 +27,7 @@ class Organization(models.Model):
 
 class MemberShip(models.Model):
 
+
     roles = [
         ('master', 'Proprietário'),
         ('admin', 'Administrador'),

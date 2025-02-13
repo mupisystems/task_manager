@@ -56,7 +56,7 @@ class ListMembersView(LoginRequiredMixin, ListView):
     model = MemberShip
     template_name = 'home.html'
     context_object_name = 'members'
-    paginate_by = 6  # Número de membros por página
+    paginate_by = 7  # Número de membros por página
 
     def get_queryset(self):
         # Filtra apenas os membros da mesma organização e ordena por nome de usuário
@@ -125,9 +125,9 @@ class UpdateUserOrganizationView(LoginRequiredMixin, View):
     """Atualiza a organização ativa do usuário"""
     def post(self, request, *args, **kwargs):
         org_id = self.kwargs.get("org_id")
-        print(Organization)
+
         organization = get_object_or_404(Organization, id=org_id)
-        print(organization)
+
 
         # Verifica se o usuário faz parte da organização
         if not MemberShip.objects.filter(user=request.user, organization=organization).exists():

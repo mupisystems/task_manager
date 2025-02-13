@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Coluna de tarefas pendentes -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0">Pendentes</h5>
+                </div>
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Tarefa</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Categoria</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            {% if not task.status %}
+                                {% if task.assigned_to == user %}
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <a href="{% url 'task_detail' task.pk %}" class="text-decoration-none">{{ task.title }}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-info">{{ task.category }}</span> <!-- Badge para categoria -->
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="{% url 'task_update' task.pk %}" class="btn-sm m-0 btn-warning btn" data-toggle="tooltip" data-original-title="Editar">
+                                                Editar
+                                            </a>
+                                            <a href="{% url 'task_update' task.pk %}" class="btn-sm m-0 btn-danger btn" data-toggle="tooltip" data-original-title="Excluir">
+                                                Excluir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                        {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center">Nenhuma tarefa pendente.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Coluna de tarefas concluídas -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Concluídas</h5>
+                </div>
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Título</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center">Categoria</th>
+                            <th class="text-secondary opacity-7 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            {% if task.status %}
+                                {% if task.assigned_to == user %}
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <a href="{% url 'task_detail' task.pk %}" class="text-decoration-none">{{ task.title }}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-info">{{ task.category }}</span> <!-- Badge para categoria -->
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="{% url 'task_update' task.pk %}" class="btn-sm m-0 btn-danger btn" data-toggle="tooltip" data-original-title="Excluir">
+                                                Excluir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                        {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center">Nenhuma tarefa concluída.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
