@@ -29,12 +29,12 @@
               <table class="table table-flush" id="products-list">
                 <thead class="thead-light">
                   <tr>
-                    <th>Tarefa</th>
-                    <th>Data limite</th>
-                    <th>Responsável</th>
-                    <th>Categoria</th>
-                    <th>Status</th>
-                    <th>Ação</th>
+                    <th class='text-center'>Tarefa</th>
+                    <th class='text-center'>Data limite</th>
+                    <th class='text-center'>Responsável</th>
+                    <th class='text-center'>Categoria</th>
+                    <th class='text-center'>Status</th>
+                    <th class='text-center'>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -48,26 +48,26 @@
                         <h6 class="ms-3 my-auto">{{task.title}}</h6>
                       </div>
                     </td>
-                    <td class="text-sm">{{ task.deadline }}</td>
-                    <td class="text-sm">{{ task.member }}</td>
-                    <td class="text-sm">{{ task.categoria | default:"-" }}</td>
+                    <td class="text-sm text-center">{{ task.deadline }}</td>
+                    <td class="text-sm text-center">{{ task.member }}</td>
+                    <td class="text-sm text-center">{{ task.categoria | default:"-" }}</td>
                     {% if task.status == 'todo' %}
-                    <td>
-                        <span class="badge badge-secondary badge-sm">{{ task.get_status_display }}</span>
+                    <td class="text-center align-middle">
+                        <span class="badge badge-secondary badge-sm ">{{ task.get_status_display }}</span>
                     </td>
                     
                     {% elif task.status == 'doing' %}
-                    <td>
+                    <td class="text-center align-middle">
                         <span class="badge badge-warning badge-sm">{{ task.get_status_display }}</span>
                     </td>
 
                     {% elif task.status == 'done' %}
-                    <td>
+                    <td class="text-center align-middle">
                         <span class="badge badge-success badge-sm">{{ task.get_status_display }}</span>
                     </td>
 
                     {% endif %}
-                    <td class="text-sm">
+                    <td class="text-sm text-center">
                       <a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Preview product">
                         <i class="fas fa-eye text-secondary"></i>
                       </a>
@@ -79,9 +79,16 @@
                       </a>
                     </td>
                   </tr>
-                </tbody>
+
+                  {% empty %}
+                  <tr>
+                    <td colspan="6" class="text-center text-muted">
+                      Nenhuma tarefa registrada ainda.
+                    </td>
+                  </tr>
                 {% endfor %}
-                {% if tasks.length %}
+                </tbody>
+                {% if tasks|length > 7 %}
                 <thead class="thead-light">
                     <tr>
                       <th>Tarefa</th>

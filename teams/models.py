@@ -34,13 +34,12 @@ class Membership(models.Model):
     ]
     is_active = models.BooleanField(default=True)
     members = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING, related_name='membership')
-    # member_name = models.ForeignKey(User.first_name, blank=True, null=True, on_delete=models.SET_NULL)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=15, choices=HIERARQUIA, default="Colaborador")
 
     
     def __str__(self):
-        return f' {self.members} cargo: {self.user_type}'
+        return f'{self.team}, {self.members} cargo: {self.user_type}'
     
     def save(self, *args, **kwargs):
         if not self.pk:

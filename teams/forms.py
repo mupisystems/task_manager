@@ -37,6 +37,7 @@ class MyCustomSignupForm(SignupForm):
         user = super(MyCustomSignupForm, self).save(request)
         team_name = self.cleaned_data.get("team_name")
         team = Team.objects.create(team_name = team_name)
+        user.current_team = team
         full_name = self.cleaned_data.get('full_name')
         name_arr = full_name.split(" ", 1)
         first_name = name_arr[0]
@@ -44,7 +45,6 @@ class MyCustomSignupForm(SignupForm):
         user.first_name = first_name
         user.last_name = last_name
 
-        print(team)
         Membership.objects.create(team=team, members = user, user_type = 'Proprietário', is_active = True)
         user.save()
         return user
