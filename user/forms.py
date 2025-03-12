@@ -29,5 +29,14 @@ class CustomSignupForm(SignupForm):
         self.fields['name_user'].widget.attrs['placeholder'] = 'Digite seu nome completo'
         self.fields['name_org'].widget.attrs['placeholder'] = 'Nome da equipe ou organização'
 
+class Userform(forms.ModelForm):
+    class Meta:
+        model = CustomUser
         
+        fields = ['email','name_user']
 
+        labels = {
+            'email': 'Email',
+            'name_user' : 'Nome do Membro',
+        }
+    

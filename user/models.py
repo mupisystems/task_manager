@@ -22,6 +22,7 @@ class Organization(models.Model):
         is_active = 'ativa' if self.is_active else 'desativada'
         return f"{self.name_org}  /  {is_active}"
 
+    @property
     def get_active_members(self):
         return Membership.objects.filter(organization=self, is_active=True) 
 

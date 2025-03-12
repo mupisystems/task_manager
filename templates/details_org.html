@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes da Organização{% endblock %}
+
+{% block content %}
+<h1>Detalhes da Organização</h1>
+
+<p>Nome: {{ organization.name_org }}</p>
+<p>Descrição: {{ organization.description }}</p>
+
+<a href="{% url 'home' %}">Voltar</a>
+
+{% endblock %}
