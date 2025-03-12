@@ -4,5 +4,15 @@
 
 {% block content %}
 <h1>Projeto de Onboarding!</h1>
-<p>Conteúdo da página inicial...</p>
+{% if request.user.is_authenticated %}
+    <h2>Bem-vindo, {{ request.user.name_user }}!</h2>
+    <a href="{% url 'account_logout' %}" class="btn btn-danger">Logout</a>
+{% else %}
+    <h2>Você não está logado.</h2>
+    <a href="{% url 'account_login' %}">Faça login</a>
+{% endif %}
+
+
+
+
 {% endblock %}
