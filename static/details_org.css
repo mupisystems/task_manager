@@ -1,0 +1,39 @@
+.header_details_org{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: "Raleway", sans-serif;
+}
+
+.title_details_org{
+  margin: 0%;
+  font-weight: 600;
+  font-style: italic;
+  text-transform: uppercase;
+  margin-right: 2%;
+  align-items: center;
+  text-align: center;
+}
+
+.role {
+  padding: 0.6% 1.2%;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  letter-spacing: 0.06rem;
+}
+
+.owner{
+  border: solid 0.18rem #BF4AF5;
+  color: #8332A8;
+}
+
+.admin{
+  border: solid 0.18rem #4D87BD;
+  color: #4172A0;
+}
+
+.member{
+  border: solid 0.18rem #cd7f32;
+  color: #aa6b2c;
+}

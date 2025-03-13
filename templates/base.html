@@ -6,8 +6,12 @@
     <title>{% block title %}Gerenciamento de Tarefas{% endblock %}</title>
     <!-- Link para o CSS do tema -->
     <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <!-- Nucleo Icons -->
     <link href="../../../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -22,15 +26,54 @@
     <!-- Outros arquivos CSS podem ser adicionados aqui -->
     {% block extra_css %}{% endblock %}
 </head>
-<body>
-    <!-- Conteúdo principal -->
-    {% block content %}
-    <!-- Aqui serão inseridos os conteúdos das páginas -->
-    {% endblock %}
+<body> 
+  <!-- Wrapper para a Sidebar e Conteúdo -->
+  <div class="d-flex main">
+    <!-- Sidebar -->
+    <div class="sidebar position-fixed top-0 bottom-0 shadow-lg p-3">
+      <div class="d-flex flex-column align-items-start">
+        <p class="navbar-brand font-weight-bolder mb-4">Olá, {{ request.user.name_user }}.</p>
+        <ul class="navbar-nav w-100">
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="{% url 'home' %}">
+              <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
+              Organizações
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="#">
+              <i class="fas fa-user-circle opacity-6 text-dark me-3"></i>
+              Perfil
+            </a>
+          </li>
+          <li class="nav-item">
+            {% if request.user.is_authenticated %}
+            <a class="nav-link d-flex align-items-center" href="{% url 'account_logout' %}">
+              <i class="fas fa-user-circle opacity-6 text-dark me-3"></i>
+              Sair
+            </a>
+            {% else %}
+            <a class="nav-link d-flex align-items-center" href="{% url 'account_login' %}">
+              <i class="fas fa-user-circle opacity-6 text-dark me-3"></i>
+              Entrar
+            </a>
+            {% endif %}        
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Content -->
+    <div class="content flex-grow-1 p-4">
+      {% block content %}
+      <!-- Aqui serão inseridos os conteúdos das páginas -->
+      {% endblock %}
+    </div>
+  </div>
 
     <!-- Scripts do tema -->
     <script src="{% static 'soft-ui/js/soft-ui-dashboard.js' %}"></script>
     <!-- Outros scripts podem ser adicionados aqui -->
     {% block extra_js %}{% endblock %}
+   
 </body>
 </html>

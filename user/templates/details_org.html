@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ request.user.org_active.name_org }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'details_org.css' %}">
+<div class="header_details_org">
+  <h3 class="title_details_org">{{ request.user.org_active.name_org }}</h3>
+  
+  <!-- <button type="button" class="btn btn-outline-default">Default</button> -->
+   {% if view.get_role == "owner" %}
+    <div class="role owner">Proprietário</div>
+    {% elif view.get_role == "admin" %}
+    <div class="role admin">Administrador</div>
+    {% else %}
+    <div class="role member">Membro</div>
+  {% endif %}
+</div>
+
+
+
+
+{% endblock %}

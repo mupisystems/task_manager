@@ -1,27 +1,31 @@
 {% extends 'base.html' %}
 
 {% block title %}Home - Task Manager{% endblock %}
-
 {% block content %}
-    <h1>Projeto de Onboarding!</h1>
-{% if request.user.is_authenticated %}
-    <h2>Bem-vindo, {{ request.user.name_user }}!</h2>
-    <a href="{% url 'account_logout' %}" class="btn btn-danger">Logout</a>
-{% else %}
-    <h2>Você não está logado.</h2>
-    <a href="{% url 'account_login' %}">Faça login</a>
-{% endif %}
 
-{% for org in orgs %}
-    <a href="{% url 'details_org' org.organization.id %}">
-        {{ org.organization.name_org }} - {{ org.role }}
-    </a>
-{% empty %}
+    <h3>Minhas Organizações</h3>
+    
+    {% for org in orgs %}
+    <div class="container">
+        <div class="row">
+          <div class="col-sm" style="border: solid 1px #3333;">
+            <a href="{% url 'details_org' org.organization.id %}" >
+                <p>{{ org.organization.name_org }}</p>
+                <p>{{ org.role }}</p>
+            </a>
+          </div>
+        </div>
+    </div>
+    {% empty %}
     <p>Você não está associado a nenhuma organização.</p>
-{% endfor %}
+    {% endfor %}
 
-<a href="{% url 'creat_user' %}">CREAT USER</a>
 
+
+
+    <p></p>
+    <!-- tirar     -->
+    <a href="{% url 'creat_user' %}">CREAT USER</a>
 
 
 {% endblock %}

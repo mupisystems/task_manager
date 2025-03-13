@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "account/account_base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -28,9 +28,6 @@
                   <p class="mb-4 text-sm mx-auto">
                     Na primeira vez, por favor,
                     <a href="{% url 'account_signup' %}" class="text-info text-gradient font-weight-bold">Cadastrar</a>
-                  </p>
-                  <p class="mb-0 text-sm">
-                    <a href="{% url 'account_reset_password' %}" class="text-muted font-weight-bold">Esqueceu sua senha?</a>
                   </p>
                 </div>
 

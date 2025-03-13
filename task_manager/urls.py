@@ -9,7 +9,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', lambda request: redirect('account_login')),
     path('home/', login_required(views.MyOrgListView.as_view()), name='home'),
-    path('home/details_org/<int:pk>/', login_required(views.OrgDetailView.as_view()), name='details_org'),
+    # path('home/details_org/<int:pk>/', login_required(views.OrgDetailView.as_view()), name='details_org'),
     path('user/', include('user.urls')),
     #path('tasks/', include('tasks.urls')),
 ]
