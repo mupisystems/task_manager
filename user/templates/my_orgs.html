@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
-
-{% block title %}Home - Task Manager{% endblock %}
+{% block title %}Minhas Organizações{% endblock %}
 {% block content %}
 
-    <h3>Minhas Organizações</h3>
-    
+<h3 class="title_details_org">Minhas Organizações</h3>
+
     {% for org in orgs %}
     <div class="container">
         <div class="row">
           <div class="col-sm" style="border: solid 1px #3333;">
-            <a href="{% url 'details_org' org.organization.id %}" >
+            <!-- colocar a org_active em destaque 
+                 fazer front -->
+            <a href="{% url 'set_active_org' org.organization.id %}">
                 <p>{{ org.organization.name_org }}</p>
                 <p>{{ org.role }}</p>
             </a>
@@ -19,13 +20,5 @@
     {% empty %}
     <p>Você não está associado a nenhuma organização.</p>
     {% endfor %}
-
-
-
-
-    <p></p>
-    <!-- tirar     -->
-    <a href="{% url 'creat_user' %}">CREAT USER</a>
-
 
 {% endblock %}

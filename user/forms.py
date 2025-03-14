@@ -33,10 +33,11 @@ class Userform(forms.ModelForm):
     class Meta:
         model = CustomUser
         
-        fields = ['email','name_user']
+        fields = ['name_user','email']
 
         labels = {
-            'email': 'Email',
             'name_user' : 'Nome do Membro',
+            'email': 'Email',
+            # 'password': 'Digite uma Senha',
         }
     

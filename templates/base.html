@@ -2,29 +2,31 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Gerenciamento de Tarefas{% endblock %}</title>
-    <!-- Link para o CSS do tema -->
-    <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'base.css' %}">
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!-- Nucleo Icons -->
-    <link href="../../../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="../../../assets/css/soft-ui-dashboard.css?v=1.1.1" rel="stylesheet" />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-    <!-- Outros arquivos CSS podem ser adicionados aqui -->
-    {% block extra_css %}{% endblock %}
+  <meta charset="UTF-8">
+  <title>{% block title %}Gerenciamento de Tarefas{% endblock %}</title>
+  <!-- Link para o CSS do tema -->
+  <link rel="stylesheet" href="{% static 'soft-ui/css/soft-ui-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'base.css' %}">
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!-- Nucleo Icons -->
+  <link href="../../../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="../../../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../../../assets/css/soft-ui-dashboard.css?v=1.1.1" rel="stylesheet" />
+  <!-- Nepcha Analytics (nepcha.com) -->
+  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+  {% block extra_css %}{% endblock %}
 </head>
 <body> 
   <!-- Wrapper para a Sidebar e Conteúdo -->
@@ -35,11 +37,19 @@
         <p class="navbar-brand font-weight-bolder mb-4">Olá, {{ request.user.name_user }}.</p>
         <ul class="navbar-nav w-100">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="{% url 'home' %}">
+            <a class="nav-link d-flex align-items-center" href="{% url 'my_orgs' %}">
               <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
               Organizações
             </a>
-          </li>
+          </li> 
+          {% if view.get_role == "owner" or view.get_role == "admin"%}
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="#">
+              <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
+              Membros
+            </a>
+          </li>  
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center" href="#">
               <i class="fas fa-user-circle opacity-6 text-dark me-3"></i>
@@ -47,17 +57,11 @@
             </a>
           </li>
           <li class="nav-item">
-            {% if request.user.is_authenticated %}
-            <a class="nav-link d-flex align-items-center" href="{% url 'account_logout' %}">
-              <i class="fas fa-user-circle opacity-6 text-dark me-3"></i>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn bg-gradient-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" 
+            hx-get="{% url 'account_logout' %}" hx-target=".modal-body" hx-swap="innerHTML">
               Sair
-            </a>
-            {% else %}
-            <a class="nav-link d-flex align-items-center" href="{% url 'account_login' %}">
-              <i class="fas fa-user-circle opacity-6 text-dark me-3"></i>
-              Entrar
-            </a>
-            {% endif %}        
+            </button>
           </li>
         </ul>
       </div>
@@ -67,6 +71,27 @@
       {% block content %}
       <!-- Aqui serão inseridos os conteúdos das páginas -->
       {% endblock %}
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn bg-gradient-primary">Save changes</button>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Task Manager{% endblock %}
+{% block content %}
+
+    <h3>Minhas Organizações</h3>
+    
+    {% for org in orgs %}
+    <div class="container">
+        <div class="row">
+          <div class="col-sm" style="border: solid 1px #3333;">
+            <a href="{% url 'details_org' org.organization.id %}" >
+                <p>{{ org.organization.name_org }}</p>
+                <p>{{ org.role }}</p>
+            </a>
+          </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Você não está associado a nenhuma organização.</p>
+    {% endfor %}
+
+
+
+
+    <p></p>
+
+    <button type="button" class="btn bg-gradient-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" 
+    hx-get="{% url 'creat_user' %}" hx-target=".modal-body" hx-swap="innerHTML">
+    CREAT USER
+    </button>
+
+
+
+    <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn bg-gradient-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
