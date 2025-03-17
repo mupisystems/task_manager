@@ -2,11 +2,25 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <form method="post" hx-post="{% url 'creat_user' %}">
+  <form hx-post="{% url 'creat_user' %}" hx-target='#user_table' hx-swap="beforeend" hx-disabled-elt= "find button[id='close'], find button[id='save']">
     {% csrf_token %}
     {{form|crispy}}
-    <button type="submit">vai</button>
+    <div>
+      <button type="button" id="close" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="submit" id="save" class="btn bg-gradient-primary">Save changes</button>
+    </div>
   </form>
 
+  <script>
 
+    document.body.addEventListener("htmx:afterSettle", function (event) {
+    const modal = bootstrap.Modal.getInstance(document.getElementById("exampleModal"));
+    if (modal) {
+      modal.hide();
+    }
+  });
+  
+  </script>
 {% endblock %}
+
+

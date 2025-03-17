@@ -1,0 +1,29 @@
+<tr>
+  <td>
+    <div class="d-flex px-2 py-1">
+      <div class="d-flex flex-column justify-content-center">
+        <h6 class="mb-0 text-xxs">{{ member.user.name_user }}</h6>
+      </div>
+    </div>
+  </td>
+  <td>
+    <div class="d-flex px-2 py-1">
+      <div class="d-flex flex-column justify-content-center">
+        <p class="text-xxs mb-0">{{ member.user.email }}</p>
+      </div>
+    </div>
+  </td>
+  <td class="align-middle text-center">
+    <p class="text-xxs font-weight-bold mb-0">{{ member.role }}</p>
+  </td>
+  <td class="align-middle text-center">
+    <span class="text-secondary text-xxs font-weight-bold">
+      {{ member.user.date_joined|date:"d M Y" }}
+    </span>
+  </td>
+  <td class="align-middle">
+    <a href="javascript:;" class="text-secondary font-weight-bold text-xxs" data-toggle="tooltip" title="Editar usuário">
+      Editar
+    </a>
+  </td>
+</tr>

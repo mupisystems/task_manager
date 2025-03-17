@@ -24,16 +24,26 @@
 }
 
 .owner{
-  border: solid 0.18rem #BF4AF5;
   color: #8332A8;
 }
 
 .admin{
-  border: solid 0.18rem #4D87BD;
   color: #4172A0;
 }
 
 .member{
-  border: solid 0.18rem #cd7f32;
   color: #aa6b2c;
+
+}
+
+.owner_border{
+  border: solid 0.18rem #BF4AF5;
+}
+
+.admin_border{
+  border: solid 0.18rem #4D87BD;
+}
+
+.member_border{
+  border: solid 0.18rem #cd7f32;
 }

@@ -42,13 +42,16 @@
               Organizações
             </a>
           </li> 
-          {% if view.get_role == "owner" or view.get_role == "admin"%}
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center" href="#">
-              <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
-              Membros
-            </a>
-          </li>  
+          
+          <!-- Não funciona -->
+          {% if org_active_role != 'member' %}
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center" href="#">
+                <!-- tira o i -->
+                <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
+                Membros
+              </a>
+            </li>  
           {% endif %}
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center" href="#">
@@ -58,8 +61,8 @@
           </li>
           <li class="nav-item">
             <!-- Button trigger modal -->
-            <button type="button" class="btn bg-gradient-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" 
-            hx-get="{% url 'account_logout' %}" hx-target=".modal-body" hx-swap="innerHTML">
+            <button type="button" class="btn bg-gradient-primary " data-bs-toggle="modal" data-bs-target="#ModalLogout" 
+            hx-get="{% url 'account_logout' %}" hx-target=".modal-body-logout" hx-swap="innerHTML">
               Sair
             </button>
           </li>
@@ -74,26 +77,25 @@
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn bg-gradient-primary">Save changes</button>
+    <!-- Modal -->
+    <div class="modal fade" id="ModalLogout" tabindex="-1" role="dialog" aria-labelledby="ModalLogoutLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="border: none;">
+          </div>
+          <div 
+            class="modal-body-logout" 
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+            ...
+          </div>
+         
         </div>
       </div>
     </div>
-  </div>
 
     <!-- Scripts do tema -->
     <script src="{% static 'soft-ui/js/soft-ui-dashboard.js' %}"></script>

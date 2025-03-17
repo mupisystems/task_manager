@@ -1,57 +1,58 @@
-{% extends 'base.html' %}
-
-{% block title %}Home - Task Manager{% endblock %}
-{% block content %}
-
-    <h3>Minhas Organizações</h3>
-    
-    {% for org in orgs %}
-    <div class="container">
-        <div class="row">
-          <div class="col-sm" style="border: solid 1px #3333;">
-            <a href="{% url 'details_org' org.organization.id %}" >
-                <p>{{ org.organization.name_org }}</p>
-                <p>{{ org.role }}</p>
+<div class="card">
+  <div class="table-responsive">
+    <table class="table align-items-center mb-0">
+      <thead>
+        <tr>
+          <th class="text-uppercase text-dark text-xs font-weight-bolder opacity-9">Nome</th>
+          <th class="text-uppercase text-dark text-xs font-weight-bolder opacity-9">Email</th>
+          <th class="text-uppercase text-dark text-xs font-weight-bolder opacity-9 ps-2">Função</th>
+          <th class="text-center text-uppercase text-dark text-xs font-weight-bolder opacity-9">Início</th>
+          <th class="text-secondary opacity-9"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for member in membership %}
+        <tr>
+          <td>
+            <div class="d-flex px-2 py-1">
+              <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm text-dark">{{ member.user.name_user }}</h6>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex px-2 py-1">
+              <div class="d-flex flex-column justify-content-center">
+                <p class="text-sm mb-0 text-dark">{{ member.user.email }}</p>
+              </div>
+            </div>
+          </td>
+          <td>
+            {% if member.role == "owner" %}
+              <div class="role owner px-2 py-1 rounded text-center text-xs fw-bold">Proprietário</div>
+            {% elif member.role == "admin" %}
+              <div class="role admin px-2 py-1 rounded text-center text-xs fw-bold">Administrador</div>
+            {% else %}
+              <div class="role member px-2 py-1 rounded text-center text-xs fw-bold">Membro</div>
+            {% endif %}
+          </td>
+          <td class="align-middle text-center">
+            <span class="text-dark text-sm fw-semibold">
+              {{ member.user.date_joined|date:"d M Y" }}
+            </span>
+          </td>
+          <td class="align-middle">
+            <a href="javascript:;" class="text-primary fw-bold text-sm" data-toggle="tooltip" title="Editar usuário">
+              Editar
             </a>
-          </div>
-        </div>
-    </div>
-    {% empty %}
-    <p>Você não está associado a nenhuma organização.</p>
-    {% endfor %}
-
-
-
-
-    <p></p>
-
-    <button type="button" class="btn bg-gradient-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" 
-    hx-get="{% url 'creat_user' %}" hx-target=".modal-body" hx-swap="innerHTML">
-    CREAT USER
-    </button>
-
-
-
-    <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn bg-gradient-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted">Nenhum membro encontrado.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-
-
-{% endblock %}
+</div>

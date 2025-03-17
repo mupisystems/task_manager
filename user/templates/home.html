@@ -3,17 +3,17 @@
 
 {% block title %}{{ request.user.org_active.name_org }}{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'details_org.css' %}">
+<link rel="stylesheet" href="{% static 'home.css' %}">
 <div class="header_details_org">
   <h3 class="title_details_org">{{ request.user.org_active.name_org }}</h3>
   
     {% if view.get_role == "owner" %}
-    <div class="role owner">Proprietário</div>
+    <div class="role owner owner_border">Proprietário</div>
     {% elif view.get_role == "admin" %}
-    <div class="role admin">Administrador</div>
+    <div class="role admin admin_border">Administrador</div>
     {% else %}
-    <div class="role member">Membro</div>
-  {% endif %}
+    <div class="role member member_border">Membro</div>
+    {% endif %}
 </div>
 
 {% if view.get_role == "owner" or view.get_role == "admin" %}
@@ -21,9 +21,7 @@
 <div style="margin: 1.5% 0%;">
   {% if view.get_role == "owner"%}
   <button type="button" class="btn bg-gradient-info btn_staff" style="margin: 0% 0.5% 0% 0%;">Editar Organização</button>
-  <!-- modal com para editar name_org e is_active 
-       Talvez usar HTMX para ataulizar (acho que não precisa) -->
-   
+
   {% endif %}
   <button type="button" class="btn bg-gradient-info" style="margin: 0%;" data-bs-toggle="modal" data-bs-target="#exampleModal" 
     hx-get="{% url 'creat_user' %}" hx-target=".modal-body" hx-swap="innerHTML">
@@ -31,13 +29,37 @@
 </button>
 </div>
 
-<div>
-{% for member in membership %}
-  {{ member.user.name_user }} - {{ member.role }} - {{ member.user.date_joined }}
-{% endfor %}
-</div>
+<!-- Aqqui mostra todas as tarefas -->
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table align-items-center mb-0 table-striped" >
+        <thead>
+          <tr>
+            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Nome</th>
+            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Email</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">Função</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Início</th>
+            <th class="text-dark opacity-7"></th>
+          </tr>
+        </thead>
+        <tbody id="user_table">
+          {% for member in membership %}
+            {% include 'user/member_row.html' %}
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center text-muted">Nenhum membro encontrado.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
 
 {% else %}
+<!-- Aqui mostra as tarefas du usuario -->
 AQUI é pra membro
 {% endif %}
 
@@ -46,7 +68,7 @@ AQUI é pra membro
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Criar User</h5>
           <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -54,11 +76,11 @@ AQUI é pra membro
         <div class="modal-body">
           ...
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn bg-gradient-primary">Save changes</button>
-        </div>
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+
 {% endblock %}

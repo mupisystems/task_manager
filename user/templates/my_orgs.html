@@ -2,23 +2,45 @@
 {% block title %}Minhas Organizações{% endblock %}
 {% block content %}
 
-<h3 class="title_details_org">Minhas Organizações</h3>
-
-    {% for org in orgs %}
-    <div class="container">
-        <div class="row">
-          <div class="col-sm" style="border: solid 1px #3333;">
-            <!-- colocar a org_active em destaque 
-                 fazer front -->
-            <a href="{% url 'set_active_org' org.organization.id %}">
-                <p>{{ org.organization.name_org }}</p>
-                <p>{{ org.role }}</p>
+<div style="
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+">
+  <h3 class="title_details_org mb-3">Minhas Organizações</h3>
+  <a href="{% url 'home' %}" class="btn mb-4" 
+    style="
+      background-color: #344767;
+      border: solid 0.04rem #34476757;
+      text-decoration: none; 
+      color: #fff; 
+    ">
+      Voltar
+    </a>
+</div>
+<div class="container">
+    <div class="row gx-3 gy-4">
+        {% for org in orgs %}
+        <div class="col-12 col-sm-6 col-md-4">
+            <a href="{% url 'set_active_org' org.organization.id %}" style="text-decoration: none; color: inherit;">
+                <div class="card h-100 shadow-sm 
+                    {% if org.organization.id == request.user.org_active.id %}
+                        border-3 border-success
+                    {% else %}
+                        border border-secondary
+                    {% endif %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ org.organization.name_org }}</h5>
+                        <p class="card-text">{{ org.role }}</p>
+                    </div>
+                </div>
             </a>
-          </div>
         </div>
+        {% empty %}
+        <p>Você não está associado a nenhuma organização.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>Você não está associado a nenhuma organização.</p>
-    {% endfor %}
+</div>
 
 {% endblock %}
