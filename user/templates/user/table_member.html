@@ -7,19 +7,20 @@
 <div class="header_details_org">
   <h3 class="title_details_org">{{ request.user.org_active.name_org }}</h3>
   
-    {% if role == "owner" %}
-    <div class="role owner owner_border">Proprietário</div>
-    {% elif role == "admin" %}
+    {% if view.get_role == "owner" %}
+    <div class="role owner owner_border">Proprietário</div>+
+    {% elif view.get_role == "admin" %}
     <div class="role admin admin_border">Administrador</div>
     {% else %}
     <div class="role member member_border">Membro</div>
     {% endif %}
 </div>
 
-{% if role == "owner" or role == "admin" %}
+
+{% if view.get_role == "owner" or view.get_role == "admin" %}
 <!-- Arquivo CSS não carrega -->
 <div style="margin: 1.5% 0%;">
-  {% if role == "owner"%}
+  {% if view.get_role == "owner"%}
   <button type="button" class="btn bg-gradient-info btn_staff" style="margin: 0% 0.5% 0% 0%;">Editar Organização</button>
 
   {% endif %}
@@ -29,6 +30,34 @@
 </button>
 </div>
 
+<div class="d-flex justify-content-center mb-0">
+  <h4>Membros da Organização</h4>
+</div>
+<!-- Aqqui mostra todas as tarefas -->
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table align-items-center mb-0 table-striped" >
+        <thead>
+          <tr>
+            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Nome</th>
+            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Email</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8 ps-2">Função</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Início</th>
+            <th class="text-dark opacity-8"></th>
+          </tr>
+        </thead>
+        <tbody id="user_table">
+          {% for member in membership %}
+            {% include 'user/member_row.html' %}
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center text-muted">Nenhum membro encontrado.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 
 

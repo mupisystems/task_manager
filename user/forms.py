@@ -30,14 +30,20 @@ class CustomSignupForm(SignupForm):
         self.fields['name_org'].widget.attrs['placeholder'] = 'Nome da equipe ou organização'
 
 class Userform(forms.ModelForm):
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('member', 'Member'),
+    ]
+    
+    role = forms.ChoiceField(choices=ROLE_CHOICES, widget=forms.RadioSelect, label='Função')
     class Meta:
         model = CustomUser
         
-        fields = ['name_user','email']
+        fields = ['name_user','email','role']
 
         labels = {
             'name_user' : 'Nome do Membro',
             'email': 'Email',
-            # 'password': 'Digite uma Senha',
+            'role': 'Função do Usuário',
         }
     

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ request.user.org_active.name_org }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
+
+<!-- Aqqui mostra todas as tarefas -->
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table align-items-center mb-0 table-striped" >
+        <thead>
+          <tr>
+            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Titulo</th>
+            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Descrição</th>
+            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Categoria</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8 ps-2">Criação</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Validade</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Autor</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Finalizada</th>
+            <th class="text-dark opacity-8"></th>
+          </tr>
+        </thead>
+        <tbody id="user_table">
+          {% for task in task %}
+          <tr>
+            <td>
+              <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                  <h6 class="mb-0 text-xs">{{ task.title }}</h6>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <p class="text-xs font-weight-bold mb-0">{{ task.description }}</p>
+            </td>
+
+            <td class="align-middle text-center text-sm">
+              <p class="text-xs font-weight-bold mb-0">{{ task.category.name }}</p>
+            </td>
+
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bold">{{ task.created_at|date:"d M Y" }}</span>
+            </td>
+
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bold">{{ task.due_date|date:"d M Y" }}</span>
+            </td>
+
+            <td>
+              <p class="text-xs font-weight-bold mb-0">{{ task.author.name_user }}</p>
+            </td>
+
+            <td>
+              <p class="text-xs font-weight-bold mb-0">{{ task.completed }}</p>
+            </td>
+            
+            <td class="align-middle">
+              <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                Edit
+              </a>
+            </td>
+          </tr>
+  
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center text-muted">Nenhum membro encontrado.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

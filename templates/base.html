@@ -28,25 +28,33 @@
   <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
   {% block extra_css %}{% endblock %}
 </head>
-<body> 
+<body style="overflow-x: hidden;"> 
   <!-- Wrapper para a Sidebar e Conteúdo -->
-  <div class="d-flex main">
+  <div class="d-flex main row">
     <!-- Sidebar -->
     <div class="sidebar position-fixed top-0 bottom-0 shadow-lg p-3">
       <div class="d-flex flex-column align-items-start">
-        <p class="navbar-brand font-weight-bolder mb-4">Olá, {{ request.user.name_user }}.</p>
+        <p class="navbar-brand font-weight-bolder mb-2">Olá, {{ request.user.name_user }}.</p>
+        <p class="navbar-brand font-weight-italic mb-4">{{ request.user.org_active.name_org }}.</p>
         <ul class="navbar-nav w-100">
+         
+          <li class="nav-item">
+            <!-- é pra ir para tela home -->
+            <a class="nav-link d-flex align-items-center" href="{% url 'tasks:tasks' %}">
+              <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
+              Atividades
+            </a>
+          </li> 
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center" href="{% url 'my_orgs' %}">
               <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
               Organizações
             </a>
-          </li> 
-          
-          <!-- Não funciona -->
-          {% if org_active_role != 'member' %}
+          </li>
+
+          {% if view.get_role != "member" %}
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="#">
+              <a class="nav-link d-flex align-items-center" href="{% url 'members' %}">
                 <!-- tira o i -->
                 <i class="fa fa-chart-pie opacity-6 text-dark me-3"></i>
                 Membros

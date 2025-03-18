@@ -25,9 +25,15 @@ def set_active_org(request, org_id):
     request.session['org_active'] = membership.organization.id
     return redirect('home')
 
+class RoleMixin:
+    def get_role(self):
+        organization = self.request.user.org_active
+        membership = Membership.objects.get(user=self.request.user, organization=organization, is_active=True)
+        return membership.role
+
 class OrgDetailView(DetailView):
   model = Organization
-  template_name = 'home.html'
+  template_name = 'user/table_member.html'
   context_object_name = 'organization'
 
   def get_object(self):
@@ -54,6 +60,14 @@ class OrgDetailView(DetailView):
     
 import time  # importa o módulo para usar sleep()
 
+class HomeView(RoleMixin, TemplateView):
+    template_name = 'home.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['role'] = self.get_role()  
+        return context
+
 class CreateUserView(CreateView):
     model = CustomUser
     template_name = 'user/add_user_form.html'
@@ -62,17 +76,19 @@ class CreateUserView(CreateView):
 
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
+        role = form.cleaned_data['role']
+
         user = form.save(commit=False)
         user.org_active = self.request.user.org_active
         user.password = 'pbkdf2_sha256$600000$mlkoD4HZEbYrVVaH5oU3Ub$rqttCsLMXJooZRGvXkNXNZzpQlHhi20KcoxpQAnjLks='
+        # user.set_password('senha_temporal') 
         user.save()
 
-        member = Membership.objects.create(user=user, organization=self.request.user.org_active, role='member')
-
+        member = Membership.objects.create(user=user, organization=self.request.user.org_active, role=role)
+        
         if self.request.headers.get('HX-Request'):
-            time.sleep(300)  # delay de 1.5 segundos antes de responder ao HTMX
+            time.sleep(1.5)  # delay de 1.5 segundos antes de responder ao HTMX
             self.template_name = self.partial_template
             return render(self.request, self.template_name, {'member': member})
         else:
             return HttpResponseRedirect(reverse('home'))
-
