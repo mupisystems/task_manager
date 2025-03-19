@@ -7,7 +7,7 @@ admin.site.register(Category, CategoryAdmin)
 
 
 class TaskAdmin(admin.ModelAdmin):
-  list_display = ("title", "description", "category", "author", "by_organization", "created_at", "due_date", "completed", "visible", )
+  list_display = ("title", "description", "category", "responsible", "by_organization", "created_at", "due_date", "completed", "visible", )
 admin.site.register(Task, TaskAdmin)
 
 

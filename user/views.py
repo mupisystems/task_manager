@@ -25,11 +25,7 @@ def set_active_org(request, org_id):
     request.session['org_active'] = membership.organization.id
     return redirect('home')
 
-class RoleMixin:
-    def get_role(self):
-        organization = self.request.user.org_active
-        membership = Membership.objects.get(user=self.request.user, organization=organization, is_active=True)
-        return membership.role
+
 
 class OrgDetailView(DetailView):
   model = Organization
@@ -59,14 +55,6 @@ class OrgDetailView(DetailView):
     return context
     
 import time  # importa o módulo para usar sleep()
-
-class HomeView(RoleMixin, TemplateView):
-    template_name = 'home.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['role'] = self.get_role()  
-        return context
 
 class CreateUserView(CreateView):
     model = CustomUser

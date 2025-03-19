@@ -7,9 +7,9 @@
 <div class="header_details_org">
   <h3 class="title_details_org">{{ request.user.org_active.name_org }}</h3>
   
-    {% if view.get_role == "owner" %}
-    <div class="role owner owner_border">Proprietário</div>+
-    {% elif view.get_role == "admin" %}
+    {% if role_user == "owner" %}
+    <div class="role owner owner_border">Proprietário</div>
+    {% elif role_user == "admin" %}
     <div class="role admin admin_border">Administrador</div>
     {% else %}
     <div class="role member member_border">Membro</div>
@@ -17,10 +17,10 @@
 </div>
 
 
-{% if view.get_role == "owner" or view.get_role == "admin" %}
+{% if role_user == "owner" or role_user == "admin" %}
 <!-- Arquivo CSS não carrega -->
 <div style="margin: 1.5% 0%;">
-  {% if view.get_role == "owner"%}
+  {% if role_user == "owner"%}
   <button type="button" class="btn bg-gradient-info btn_staff" style="margin: 0% 0.5% 0% 0%;">Editar Organização</button>
 
   {% endif %}

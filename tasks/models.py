@@ -13,7 +13,7 @@ class Task(models.Model):
   title = models.CharField(max_length=200)
   description = models.TextField()
   category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="category")
-  author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="author", null=True, blank=True) 
+  responsible = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="responsible", null=True, blank=True) 
   by_organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="by_organization", null=True, blank=True)
   created_at = models.DateTimeField(auto_now_add=True)
   due_date = models.DateTimeField()
