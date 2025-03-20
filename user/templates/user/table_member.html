@@ -21,12 +21,11 @@
 <!-- Arquivo CSS não carrega -->
 <div style="margin: 1.5% 0%;">
   {% if role_user == "owner"%}
-  <button type="button" class="btn bg-gradient-info btn_staff" style="margin: 0% 0.5% 0% 0%;">Editar Organização</button>
-
+  
   {% endif %}
-  <button type="button" class="btn bg-gradient-info" style="margin: 0%;" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+  <button type="button" class="btn bg-gradient-success" style="margin: 0%;" data-bs-toggle="modal" data-bs-target="#exampleModal" 
     hx-get="{% url 'creat_user' %}" hx-target=".modal-body" hx-swap="innerHTML">
-    CREAT USER
+    Adcionar 
 </button>
 </div>
 

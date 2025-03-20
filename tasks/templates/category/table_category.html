@@ -1,0 +1,51 @@
+<button type="button" class="btn bg-gradient-success my-2"
+  data-bs-toggle="modal" data-bs-target="#categoryModal"
+  hx-get="{% url 'tasks:create_category' %}"  
+  hx-target=".modal-category-body" 
+  hx-swap="innerHTML">
+  Adicionar
+</button>
+
+
+<div  class="my-2">
+  <h4>Categorias</h4>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table align-items-center mb-0 table-striped" >
+         <thead>
+            <tr>
+              <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Titulo</th>
+              <th class="text-dark opacity-8"></th>
+              </tr>
+              </thead>
+              <tbody id="category_table">
+                {% for category in categories %}
+                  {% include 'category/row_category.html' with category=category %}
+                {% empty %}
+                <tr>
+                  <td colspan="4" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
+                </tr>
+                {% endfor %}
+        
+              </tbody>
+            </table>
+          </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="categoryModalLabel">Criar Terefa</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-category-body">
+        ...
+      </div>
+    </div>
+  </div>
+</div>

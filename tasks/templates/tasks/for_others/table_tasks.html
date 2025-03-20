@@ -1,13 +1,13 @@
 <button type="button" class="btn bg-gradient-success my-2 ms-8" style="margin: 0% 0.5% 0% 0%;" 
-  data-bs-toggle="modal" data-bs-target="#exampleModal" 
-  hx-get="{% url 'tasks:create_tasks' %}" 
-  hx-target=".modal-body" 
+  data-bs-toggle="modal" data-bs-target="#ModalTaskForOthers" 
+  hx-get="{% url 'tasks:create_tasks_others' %}" 
+  hx-target=".modal-body-for-others" 
   hx-swap="innerHTML">
-  Nova Atividade (user)
+  Nova Atividade (all)
 </button>
 
 <div class="mt-4">
-  <h4>Minhas Tarefas</h4>
+  <h4 class="my-2">Todas as Tarefas</h4>
   <div class="card">
     <div class="table-responsive">
       <table class="table align-items-center mb-0 table-striped" >
@@ -16,14 +16,16 @@
             <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Titulo</th>
             <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Descrição</th>
             <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Categoria</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8 ps-2">Criação</th>
             <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Validade</th>
+            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Responsável</th>
             <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Finalizada</th>
             <th class="text-dark opacity-8"></th>
           </tr>
         </thead>
-        <tbody id="tasks_table">
-          {% for task in tasks_user %}
-            {% include 'tasks/row_tasks.html' with task=task %}
+        <tbody id="tasks_for_others_table">
+          {% for task in tasks_all %}
+            {% include 'tasks/for_others/row_tasks.html' with task=task %}
           {% empty %}
           <tr>
             <td colspan="4" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
@@ -36,17 +38,16 @@
   </div>
 </div>
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalTaskForOthers" tabindex="-1" role="dialog" aria-labelledby="ModalTaskForOthersLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Criar Terefa</h5>
+        <h5 class="modal-title" id="ModalTaskForOthersLabel">Criar Terefa</h5>
         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body-for-others">
         ...
       </div>
     </div>

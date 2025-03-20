@@ -1,8 +1,8 @@
-
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <form hx-post="{% url 'creat_user' %}" hx-target='#user_table' hx-swap="beforeend" hx-disabled-elt= "find button[id='save'], find button[id='close']">
+
+  <form class="p-3" hx-post="{% url 'tasks:create_tasks_others' %}" hx-target='#tasks_for_others_table' hx-swap="beforeend" hx-disabled-elt= "find button[id='save'], find button[id='close']">
     {% csrf_token %}
     {{form|crispy}}
     <div>
@@ -19,8 +19,6 @@
       modal.hide();
     }
   });
-  
+   
   </script>
 {% endblock %}
-
-

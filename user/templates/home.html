@@ -20,222 +20,35 @@
 
   {% if role_user != "member" %}
   <!-- olhar style de todos -->
-    <button @click="category = !category" class="btn bg-gradient-warning" style="margin: 0% 0.5% 0% 0%;">
+    <button @click="category = !category" class="btn bg-gradient-warning mt-3" style="margin: 0% 0.5% 0% 0%;">
       <span x-text="category ? 'Voltar' : 'Categorias'"></span>
     </button>
-
-    <button x-show="category" type="button" class="btn bg-gradient-info" style="margin: 0%;" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-      hx-get="{% url 'creat_user' %}" hx-target=".modal-body" hx-swap="innerHTML">
-        Nova Categoria
-    </button>
     
-      <button x-show="!category" @click="showAll = !showAll, btn_task_user = !btn_task_user, btn_task_all = !btn_task_all" class="btn bg-gradient-warning" style="margin: 0% 0.5% 0% 0%;">
+      <button x-show="!category" @click="showAll = !showAll, btn_task_user = !btn_task_user, btn_task_all = !btn_task_all" class="btn bg-gradient-info mt-3" style="margin: 0% 0.5% 0% 0%;">
         <span x-text="showAll ? 'Ver Minhas Tarefas' : 'Ver Todas as Tarefas'"></span>
       </button>
-
-      <div x-show="!category">
-        <!-- modal do task_user -->
-        <button x-show="btn_task_user" type="button" class="btn bg-gradient-info" style="margin: 0% 0.5% 0% 0%;" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-        hx-get="{% url 'creat_user' %}" hx-target=".modal-body" hx-swap="innerHTML">
-          Nova Atividade (user)
-        </button>
-      
-      <!-- modal do task_all -->
-      <button x-show="btn_task_all" type="button" class="btn bg-gradient-info" style="margin: 0% 0.5% 0% 0%;" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-      hx-get="{% url 'creat_user' %}" hx-target=".modal-body" hx-swap="innerHTML">
-        Nova Atividade (all)
-      </button>
-      </div>
 
   {% endif %}
 
   <div x-show="!category">
 
     {% if role_user != "member" %}
-      <div x-show="showAll" class="mt-4">
-            <h4 class="my-2">Todas as Tarefas</h4>
-            <div class="card">
-              <div class="table-responsive">
-                <table class="table align-items-center mb-0 table-striped" >
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Titulo</th>
-                      <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Descrição</th>
-                      <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Categoria</th>
-                      <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8 ps-2">Criação</th>
-                      <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Validade</th>
-                      <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Responsável</th>
-                      <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Cargo</th>
-                      <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Finalizada</th>
-                      <th class="text-dark opacity-8"></th>
-                    </tr>
-                  </thead>
-                  <tbody id="user_table">
-                    {% for task in tasks_all %}
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-xs">{{ task.title }}</h6>
-                          </div>
-                        </div>
-                      </td>
-            
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ task.description }}</p>
-                      </td>
-            
-                      <td class="align-middle text-center text-sm">
-                        <p class="text-xs font-weight-bold mb-0">{{ task.category.name }}</p>
-                      </td>
-            
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ task.created_at|date:"d M Y" }}</span>
-                      </td>
-            
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ task.due_date|date:"d M Y" }}</span>
-                      </td>
-            
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ task.responsible.name_user }}</p>
-                      </td>
-
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">
-
-                        {{ task.responsible.name_user }}
-                        </p>
-                      </td>
-            
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ task.completed }}</p>
-                      </td>
-                      
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-            
-                    {% empty %}
-                    <tr>
-                      <td colspan="4" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
-                    </tr>
-                    {% endfor %}
-            
-                  </tbody>
-                </table>
-              </div>
-            </div>
+      <div x-show="showAll">
+        {% include 'tasks/for_others/table_tasks.html' %}
       </div>
     {% endif %}
 
-    <div x-show="!showAll" class="mt-4">
-          <h4>Minhas Tarefas</h4>
-          <div class="card">
-            <div class="table-responsive">
-              <table class="table align-items-center mb-0 table-striped" >
-                <thead>
-                  <tr>
-                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Titulo</th>
-                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Descrição</th>
-                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Categoria</th>
-                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Validade</th>
-                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Finalizada</th>
-                    <th class="text-dark opacity-8"></th>
-                  </tr>
-                </thead>
-                <tbody id="user_table">
-                  {% for task in tasks_user %}
-                  <tr>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-xs">{{ task.title }}</h6>
-                        </div>
-                      </div>
-                    </td>
-          
-                    <td>
-                      <p class="text-xs font-weight-bold mb-0">{{ task.description }}</p>
-                    </td>
-          
-                    <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0">{{ task.category.name }}</p>
-                    </td>
-          
-                    <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">{{ task.due_date|date:"d M Y" }}</span>
-                    </td>
-          
-                    <td>
-                      <p class="text-xs font-weight-bold mb-0">{{ task.completed }}</p>
-                    </td>
-                    
-                    <td class="align-middle">
-                      <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                        Edit
-                      </a>
-                    </td>
-                  </tr>
-          
-                  {% empty %}
-                  <tr>
-                    <td colspan="4" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
-                  </tr>
-                  {% endfor %}
-          
-                </tbody>
-              </table>
-            </div>
-          </div>
+    <div x-show="!showAll">
+      {% include 'tasks/table_tasks.html' %}
     </div>
 
   </div>
   
   {% if role_user != "member" %}  
   <!-- Estilizar -->
-  <div x-show="category" class="my-2">
-    <h4>Categorias</h4>
-      <div class="card">
-        <div class="table-responsive">
-          <table class="table align-items-center mb-0 table-striped" >
-           <thead>
-              <tr>
-                <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Titulo</th>                    <th class="text-dark opacity-8"></th>
-                </tr>
-                </thead>
-                <tbody id="user_table">
-                  {% for categories in categories %}
-                  <tr>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-xs">{{ categories.name }}</h6>
-                        </div>
-                      </div>
-                    </td>      
-                    
-                    <td class="align-middle">
-                      <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                        Edit
-                      </a>
-                    </td>
-                  </tr>
-          
-                  {% empty %}
-                  <tr>
-                    <td colspan="4" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
-                  </tr>
-                  {% endfor %}
-          
-                </tbody>
-              </table>
-            </div>
-      </div>
-  </div>
+   <div x-show="category">
+    {% include 'category/table_category.html' %}
+   </div>
 {% endif %}
 
 

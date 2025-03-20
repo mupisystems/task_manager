@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, ListView, DetailView, TemplateView
 from .forms import Userform
 from user.models import CustomUser, Membership, Organization
+import time  # importa o módulo para usar sleep()
 
 class MyOrgsListView(ListView):
     model = Membership
@@ -53,8 +54,6 @@ class OrgDetailView(DetailView):
     organization = self.get_object()
     context['membership'] = Membership.objects.filter(organization=organization, is_active=True)  
     return context
-    
-import time  # importa o módulo para usar sleep()
 
 class CreateUserView(CreateView):
     model = CustomUser

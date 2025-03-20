@@ -2,12 +2,17 @@ from django.db import models
 from user.models import Organization, CustomUser 
 
 class Category(models.Model):
-  name = models.CharField(max_length=50, null=True, blank=True)
+  name = models.CharField(max_length=50, null=True, blank=False)
   organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="organization")
   visible = models.BooleanField(default=True)
 
+  class Meta:
+    constraints = [
+      models.UniqueConstraint(fields=['name', 'organization'], name='unique_category_per_org')
+    ]
+
   def __str__(self):
-    return f"{self.organization} / {self.name} / {'Ativo' if self.visible else 'Inativo'}"
+    return f"{self.name}"
 
 class Task(models.Model):
   title = models.CharField(max_length=200)

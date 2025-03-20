@@ -1,0 +1,31 @@
+<tr>
+  <td>
+    <div class="d-flex px-2 py-1">
+      <div class="d-flex flex-column justify-content-center">
+        <h6 class="mb-0 text-xs">{{ task.title }}</h6>
+      </div>
+    </div>
+  </td>
+
+  <td>
+    <p class="text-xs font-weight-bold mb-0">{{ task.description }}</p>
+  </td>
+
+  <td class="align-middle text-center text-sm">
+    <p class="text-xs font-weight-bold mb-0">{{ task.category.name }}</p>
+  </td>
+
+  <td class="align-middle text-center">
+    <span class="text-secondary text-xs font-weight-bold">{{ task.due_date|date:"d M Y" }}</span>
+  </td>
+
+  <td>
+    <p class="text-xs font-weight-bold mb-0">{{ task.completed }}</p>
+  </td>
+  
+  <td class="align-middle">
+    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+      Edit
+    </a>
+  </td>
+</tr>
