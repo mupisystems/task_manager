@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Category, Task, Comment
 
 class CategoryAdmin(admin.ModelAdmin):
-  list_display = ("name", "organization", )
+  list_display = ("name", "visible", "organization" )
 admin.site.register(Category, CategoryAdmin)
 
 

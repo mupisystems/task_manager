@@ -2,7 +2,12 @@
 
 {% block content %}
 
-  <form class="p-3" hx-post="{% url 'tasks:create_tasks_others' %}" hx-target='#tasks_for_others_table' hx-swap="beforeend" hx-disabled-elt= "find button[id='save'], find button[id='close']">
+  <form class="p-3" 
+        hx-post="{% url 'tasks:create_tasks_others' %}" 
+        hx-target='#tasks_for_others_table' 
+        hx-swap="beforeend" 
+        hx-disabled-elt= "find button[id='save'], find button[id='close']">
+        
     {% csrf_token %}
     {{form|crispy}}
     <div>
@@ -14,7 +19,7 @@
   <script>
 
     document.body.addEventListener("htmx:afterSettle", function (event) {
-    const modal = bootstrap.Modal.getInstance(document.getElementById("exampleModal"));
+    const modal = bootstrap.Modal.getInstance(document.getElementById("ModalTaskForOthers"));
     if (modal) {
       modal.hide();
     }

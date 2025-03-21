@@ -1,0 +1,41 @@
+<div class="p-4">
+  <h5 class="mb-3">Tem certeza de que deseja excluir a categoria?</h5>
+  <p class="mb-4">Categoria: <strong>{{ category.name }}</strong></p>
+  
+  <form method="post"
+        hx-post="{% url 'tasks:delete_category' category.id %}"
+        hx-target="#category-row-{{ category.id }}"
+        hx-swap="outerHTML">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success me-1">Sim, excluir</button>
+    <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cancelar</button>
+  </form>
+</div> 
+
+<script>
+  document.body.addEventListener("htmx:afterRequest", function (event) {
+    if (event.detail.xhr.status === 204) {
+        const modalElement = document.getElementById("categoryDeletModal");
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();  // Fecha o modal
+            modalElement.classList.remove('show');  // Remove a classe 'show' que mantém o modal visível
+            document.body.classList.remove('modal-open');  // Remove a classe 'modal-open' do body (que mantém o backdrop)
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();  // Remove o backdrop
+        }
+
+        // Após a exclusão, remove a linha da tabela
+        const categoryId = event.detail.xhr.getResponseHeader("X-Category-Id");
+        const row = document.getElementById(`category-row-${categoryId}`);
+        if (row) row.remove(); // Remove a linha da tabela da categoria excluída
+    }
+});
+
+document.body.addEventListener("htmx:afterSwap", function (event) {
+    if (event.detail.target.classList.contains("modal-category-delet-body")) {
+        const modal = new bootstrap.Modal(document.getElementById("categoryDeletModal"));
+        modal.show();  // Reabre o modal
+    }
+});
+</script>

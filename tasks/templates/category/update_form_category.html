@@ -1,0 +1,27 @@
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h5 class="modal-title ms-3 mt-3">Editar Categoria</h5>
+
+  <form class="p-3" method="post" id="edit-category-form" 
+        hx-post="{% url 'tasks:update_category' category.id %}" 
+        hx-target="#category-row-{{ category.id }}" 
+        hx-swap="outerHTML" 
+        hx-disable-elt="find button[id='save'], find button[id='close']">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="mt-4">
+      <button type="submit" id="save" class="btn bg-gradient-success me-2">Salvar</button>
+      <button type="button" id="close" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+  </form>
+
+  <script>
+    document.body.addEventListener("htmx:afterSettle", function (event) {
+      const modal = bootstrap.Modal.getInstance(document.getElementById("categoryModal"));
+      if (modal) {
+        modal.hide();
+      }
+    });
+  </script>
+{% endblock %}

@@ -1,15 +1,36 @@
-<tr>
-  <td>
+<tr style="width: 100%;" id="category-row-{{ category.id }}">
+  <td style="width: 70%;"> 
     <div class="d-flex px-2 py-1">
       <div class="d-flex flex-column justify-content-center">
         <h6 class="mb-0 text-xs">{{ category.name }}</h6>
       </div>
     </div>
   </td>      
-  
-  <td class="align-middle">
-    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-      Edit
-    </a>
+
+  <td style="display: flex; justify-content: space-evenly;">
+    <button type="button" class="btn bg-gradient-info btn-sm mb-0 me-1 px-3" 
+            hx-get="{% url 'tasks:update_category' category.id %}"
+            hx-target=".modal-category-body"
+            hx-swap="innerHTML"
+            data-bs-toggle="modal" data-bs-target="#categoryModal">
+      Editar
+    </button>
+    <button type="button" class="btn bg-gradient-danger btn-sm mb-0 px-3"
+            hx-get="{% url 'tasks:delete_category' category.id %}"
+            hx-target=".modal-category-delet-body" 
+            hx-swap="innerHTML"
+            data-bs-toggle="modal" data-bs-target="#categoryDeletModal">
+      Excluir
+    </button>
   </td>
 </tr>
+
+<div class="modal fade" id="categoryDeletModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-category-delet-body">
+       ...
+      </div>
+    </div>
+  </div>
+</div>

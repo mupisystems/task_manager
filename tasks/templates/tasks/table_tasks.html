@@ -6,33 +6,34 @@
   Nova Atividade (user)
 </button>
 
-<div class="mt-4">
-  <h4>Minhas Tarefas</h4>
-  <div class="card">
-    <div class="table-responsive">
-      <table class="table align-items-center mb-0 table-striped" >
-        <thead>
-          <tr>
-            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Titulo</th>
-            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Descrição</th>
-            <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Categoria</th>
-            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Validade</th>
-            <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-8">Finalizada</th>
-            <th class="text-dark opacity-8"></th>
-          </tr>
-        </thead>
-        <tbody id="tasks_table">
-          {% for task in tasks_user %}
-            {% include 'tasks/row_tasks.html' with task=task %}
-          {% empty %}
-          <tr>
-            <td colspan="4" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
-          </tr>
-          {% endfor %}
-  
-        </tbody>
-      </table>
-    </div>
+<div class="d-flex flex-column justify-content-center align-items-center" style="width: 100%;">
+  <div style="width: 80%;">
+      <h4 style="width: 100%; text-align: center;">Minhas Tarefas</h4>
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table align-items-center mb-0 table-striped" >
+            <thead>
+              <tr>
+                <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-8">Titulo</th>
+                <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-8">Categoria</th>
+                <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-8">Validade</th>
+                <!-- <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-8">Finalizada</th> -->
+                <th class="text-dark opacity-8"></th>
+              </tr>
+            </thead>
+            <tbody id="tasks_table">
+              {% for task in tasks_user %}
+                {% include 'tasks/row_tasks.html' with task=task %}
+              {% empty %}
+              <tr>
+                <td colspan="4" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+   
   </div>
 </div>
 
