@@ -1,7 +1,7 @@
 <button type="button" class="btn bg-gradient-success my-2 ms-8" style="margin: 0% 0.5% 0% 0%;" 
-  data-bs-toggle="modal" data-bs-target="#exampleModal" 
+  data-bs-toggle="modal" data-bs-target="#CreateTaskModal" 
   hx-get="{% url 'tasks:create_tasks' %}" 
-  hx-target=".modal-body" 
+  hx-target=".modal-body-create-task" 
   hx-swap="innerHTML">
   Nova Atividade (user)
 </button>
@@ -17,7 +17,7 @@
                 <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-8">Titulo</th>
                 <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-8">Categoria</th>
                 <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-8">Validade</th>
-                <!-- <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-8">Finalizada</th> -->
+                <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-8">Coment.</th>
                 <th class="text-dark opacity-8"></th>
               </tr>
             </thead>
@@ -38,17 +38,17 @@
 </div>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CreateTaskModal" tabindex="-1" role="dialog" aria-labelledby="CreateTaskModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Criar Terefa</h5>
+        <h5 class="modal-title" id="CreateTaskModalLabel">Criar Tarefa</h5>
         <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body-create-task">
+        
       </div>
     </div>
   </div>

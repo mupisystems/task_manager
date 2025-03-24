@@ -6,6 +6,8 @@ from django.views.generic import CreateView, ListView, DetailView, TemplateView
 from .forms import Userform
 from user.models import CustomUser, Membership, Organization
 import time  # importa o módulo para usar sleep()
+from .decorators import require_admin_or_owner
+from django.utils.decorators import method_decorator
 
 class MyOrgsListView(ListView):
     model = Membership
@@ -26,8 +28,7 @@ def set_active_org(request, org_id):
     request.session['org_active'] = membership.organization.id
     return redirect('home')
 
-
-
+@method_decorator(require_admin_or_owner, name='dispatch')
 class OrgDetailView(DetailView):
   model = Organization
   template_name = 'user/table_member.html'
@@ -55,6 +56,7 @@ class OrgDetailView(DetailView):
     context['membership'] = Membership.objects.filter(organization=organization, is_active=True)  
     return context
 
+@method_decorator(require_admin_or_owner, name='dispatch')
 class CreateUserView(CreateView):
     model = CustomUser
     template_name = 'user/add_user_form.html'
@@ -67,8 +69,7 @@ class CreateUserView(CreateView):
 
         user = form.save(commit=False)
         user.org_active = self.request.user.org_active
-        user.password = 'pbkdf2_sha256$600000$mlkoD4HZEbYrVVaH5oU3Ub$rqttCsLMXJooZRGvXkNXNZzpQlHhi20KcoxpQAnjLks='
-        # user.set_password('senha_temporal') 
+        user.set_password('senha_temporaria') 
         user.save()
 
         member = Membership.objects.create(user=user, organization=self.request.user.org_active, role=role)

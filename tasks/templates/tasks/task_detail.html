@@ -1,0 +1,60 @@
+<div class="p-4 bg-white">
+  
+  <h5 class="mb-4  fw-bold">Detalhes da Tarefa</h5>
+
+  <div class="mb-3">
+    <p class="mb-1"><strong>Título:</strong> <span id="task-title" class="text-dark">{{ task.title }}</span></p>
+    <hr class="my-2">
+    <p class="mb-1"><strong>Descrição:</strong> <span id="task-description" class="text-muted">{{ task.description }}</span></p>
+    <hr class="my-2">
+    <p class="mb-1"><strong>Categoria:</strong> <span id="task-category" class="badge bg-info text-dark">{{ task.category.name }}</span></p>
+    <hr class="my-2">
+    <p class="mb-1"><strong>Vencimento:</strong> <span id="task-due_date" class="text-danger">{{ task.due_date|date:"d/m/Y" }}</span></p>
+    <hr class="my-2">
+    <p class="mb-1"><strong>Status:</strong> 
+      {% if task.completed %}
+        <span class="badge bg-success">Concluída</span>
+      {% else %}
+        <span class="badge bg-warning text-dark">Pendente</span>
+      {% endif %}
+    </p>
+  </div>
+
+  <div id="comments-section">
+    {% for comment in task.task.all %}
+    <div class="mb-2 p-2 border rounded bg-light">
+      <p class="mb-1"><strong>{{ comment.create_by.name_user }}</strong></p>
+      <p class="mb-0">{{ comment.text }}</p>
+    </div>
+    {% empty %}
+    <p class="text-muted">Nenhum comentário ainda.</p>
+    {% endfor %}
+  </div>
+
+  <div class="d-flex justify-content-between pt-3 border-top mt-4">
+    <button type="button" class="btn  w-100 me-2 mb-0" 
+            data-bs-dismiss="modal">
+      Voltar
+    </button>
+
+    <button type="button" class="btn bg-gradient-success w-100 me-2 mb-0"
+            hx-get="{% url 'tasks:complete_task' task.id %}"
+            hx-target="#completeTaskModalBody"
+            hx-swap="innerHTML"
+            data-bs-toggle="modal"
+            data-bs-target="#completeTaskModal">
+      Concluir
+    </button>
+
+    <button type="button" class="btn bg-gradient-danger w-100 mb-0"
+            hx-get="{% url 'tasks:delete_tasks' task.id %}"
+            hx-target=".modal-task-delet-body"
+            hx-swap="innerHTML"
+            data-bs-toggle="modal"
+            data-bs-target="#taskDeletModal">
+      Excluir
+    </button>
+
+  </div>
+</div>
+

@@ -1,0 +1,29 @@
+{% load crispy_forms_tags %}
+<div class="modal-header">
+  <h5 class="modal-title">Editar Tarefa</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+  <form class="p-3" method="post" 
+        hx-post="{% url 'tasks:edit_task' task.id %}" 
+        hx-target="#task-row-{{ task.id }}"
+        hx-swap="outerHTML"
+        hx-trigger="submit">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="mt-4">
+      <button type="submit" class="btn bg-gradient-success me-2">Salvar</button>
+      <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+  </form>
+</div>
+
+<script>
+document.body.addEventListener("htmx:afterSwap", function(event) {
+  if (event.detail.target.id === 'task-row-{{ task.id }}') {
+    const modal = bootstrap.Modal.getInstance(document.getElementById("editTaskModal"));
+    if (modal) modal.hide();
+  }
+});
+</script>

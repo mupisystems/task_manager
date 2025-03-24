@@ -8,34 +8,48 @@
         hx-swap="outerHTML">
     {% csrf_token %}
     <button type="submit" class="btn btn-success me-1">Sim, excluir</button>
-    <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal" onclick="closeModal()">Cancelar</button>
   </form>
 </div>
 
 <script>
-  document.body.addEventListener("htmx:afterRequest", function (event) {
+  
+function closeModal() {
+    const modalElement = document.getElementById("taskDeletModal");
+    const modal = bootstrap.Modal.getInstance(modalElement);
+
+    if (modal) {
+        modal.hide();  
+        modalElement.classList.remove('show');  
+        document.body.classList.remove('modal-open');  
+
+        // Remove o backdrop manualmente
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
+    }
+}
+
+document.body.addEventListener("htmx:afterRequest", function (event) {
     if (event.detail.xhr.status === 204) {
-        const modalElement = document.getElementById("taskDeletModal");
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-            modal.hide();  
-            modalElement.classList.remove('show');  
-            document.body.classList.remove('modal-open');  
-            const backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) backdrop.remove();  
-        }
+        closeModal();  
 
         
-        const taskId = event.detail.xhr.getResponseHeader("X-Task-Id");  
+        const taskId = event.detail.xhr.getResponseHeader("X-Task-Id");
         const row = document.getElementById(`task-row-${taskId}`);
-        if (row) row.remove();  
+        if (row) row.remove();
     }
 });
+
 
 document.body.addEventListener("htmx:afterSwap", function (event) {
     if (event.detail.target.classList.contains("modal-task-delet-body")) {
         const modal = new bootstrap.Modal(document.getElementById("taskDeletModal"));
         modal.show();  
     }
+});
+
+
+document.getElementById("taskDeletModal").addEventListener("hidden.bs.modal", function () {
+    closeModal();  
 });
 </script>

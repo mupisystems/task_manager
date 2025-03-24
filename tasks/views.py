@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
+from user.decorators import require_admin_or_owner
+from django.utils.decorators import method_decorator
 
 
 User = get_user_model()
@@ -32,7 +34,7 @@ class TaskListView(ListView):
   
 
 
-
+@method_decorator(require_admin_or_owner, name='dispatch')
 class CategoryListView(ListView):
   model = Category
   template_name = 'category/table_category.html'
@@ -44,6 +46,7 @@ class CategoryListView(ListView):
     context['categories'] = Category.objects.filter(organization=org_active , visible=True )
     return context
 
+@method_decorator(require_admin_or_owner, name='dispatch')
 class CategoryCreateView(CreateView):
   model = Category
   template_name = 'category/form_category.html'
@@ -67,6 +70,7 @@ class CategoryCreateView(CreateView):
     else:
       return HttpResponseRedirect(reverse('home'))
 
+@method_decorator(require_admin_or_owner, name='dispatch')
 class CategoryUpdateView(UpdateView):
     model = Category
     template_name = 'category/update_form_category.html'
@@ -93,6 +97,7 @@ class CategoryUpdateView(UpdateView):
         
         return redirect('tasks:category_list')  
 
+@method_decorator(require_admin_or_owner, name='dispatch')
 class CategoryDeleteView(UpdateView):
     model = Category
     fields = ['visible']  
@@ -120,8 +125,16 @@ class CategoryDeleteView(UpdateView):
         return HttpResponse(status=404)
 
 
+class TaskDetailView(DetailView):
+    model = Task
+    template_name = 'tasks/task_detail.html'
+    context_object_name = 'task'
 
-
+    def get(self, request, *args, **kwargs):
+      self.object = self.get_object()
+      context = self.get_context_data(object=self.object)
+      return self.render_to_response(context)
+    
 class TaskListViewTEMP(ListView):
   model = Task
   template_name = 'table_tasks.html'
@@ -135,28 +148,28 @@ class TaskListViewTEMP(ListView):
     return context   
 
 class TaskCreateView(CreateView):
-  model = Task
-  template_name = 'tasks/form_tasks.html'
-  partial_template = 'tasks/row_tasks.html'  
-  form_class = CreateTask
+    model = Task
+    template_name = 'tasks/form_tasks.html'
+    partial_template = 'tasks/row_tasks.html'  
+    form_class = CreateTask
 
-  def get_form_kwargs(self):
-    kwargs = super().get_form_kwargs()
-    kwargs['org_active'] = self.request.user.org_active
-    return kwargs
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['org_active'] = self.request.user.org_active
+        return kwargs
 
-  def form_valid(self, form):
-    """If the form is valid, save the associated model."""
-    task = form.save(commit=False)
-    task.by_organization = self.request.user.org_active
-    task.responsible = self.request.user
-    task.save()
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        task = form.save(commit=False)
+        task.by_organization = self.request.user.org_active
+        task.responsible = self.request.user
+        task.save()
 
-    if self.request.headers.get('HX-Request'):
-      time.sleep(1.5)
-      return render(self.request, self.partial_template, {'task': task})
-    else:
-      return HttpResponseRedirect(reverse('home'))
+        if self.request.headers.get('HX-Request'):
+            time.sleep(1.5)  
+            return render(self.request, self.partial_template, {'task': task})
+        else:
+            return HttpResponseRedirect(reverse('home'))
 
 class TaskDeleteView(UpdateView):
     model = Task
@@ -188,7 +201,71 @@ class TaskDeleteView(UpdateView):
         """Se o formulário for inválido, retorna erro 404."""
         return HttpResponse(status=404)
 
+class CompleteTaskView(UpdateView):
+    model = Task
+    fields = [] 
+    template_name = 'tasks/confirm_complete_tasks.html'  
 
+    def get_object(self, queryset=None):
+        """Recupera a tarefa baseada no ID."""
+        return get_object_or_404(Task, pk=self.kwargs['pk'])
+
+    def form_valid(self, form):
+        """Define 'completed' como True e 'visible' como False, e salva a tarefa."""
+        task = form.save(commit=False)
+        task.completed = True  
+        task.visible = False   
+        task.save()
+
+        if self.request.headers.get('HX-Request'):
+            
+            return HttpResponse(status=204, headers={
+                "HX-Trigger": "taskCompleted",  
+                "X-Task-Id": str(task.id),  
+            })
+
+        return redirect('tasks:task_list')  
+
+    def get(self, request, *args, **kwargs):
+        """Exibe o formulário de confirmação."""
+        self.object = self.get_object()
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Processa a conclusão da tarefa."""
+        self.object = self.get_object()
+        return self.form_valid(self.get_form())
+
+class TaskEditView(UpdateView):
+    model = Task
+    form_class = CreateTask
+    template_name = 'tasks/edit_task.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['org_active'] = self.request.user.org_active
+        return kwargs
+
+    def form_valid(self, form):
+        task = form.save()
+        
+        if self.request.headers.get('HX-Request'):
+    
+            return render(self.request, 'tasks/row_tasks.html', {'task': task})
+        
+        return redirect('tasks:task_detail', pk=task.pk)
+
+    def form_invalid(self, form):
+        if self.request.headers.get('HX-Request'):
+            return render(self.request, 'tasks/edit_task.html', {
+                'form': form,
+                'task': self.get_object()
+            }, status=400)
+            
+        return super().form_invalid(form)
+
+
+@method_decorator(require_admin_or_owner, name='dispatch')
 class TaskForOthersListView(ListView):
   model = Task
   template_name = 'table_tasks.html'
@@ -201,7 +278,7 @@ class TaskForOthersListView(ListView):
     context['tasks_user'] = Task.objects.filter(by_organization=org_active, responsible=user ,visible=True )
     return context   
 
-# pedir pra explicar
+@method_decorator(require_admin_or_owner, name='dispatch')
 class TaskCreateForOthersView(CreateView):
     model = Task
     template_name = 'tasks/for_others/form_tasks.html'

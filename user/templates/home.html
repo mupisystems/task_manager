@@ -33,12 +33,12 @@
   <div x-show="!category">
 
     {% if role_user != "member" %}
-      <div x-show="showAll">
+      <div x-show="showAll" class="mb-3">
         {% include 'tasks/for_others/table_tasks.html' %}
       </div>
     {% endif %}
 
-    <div x-show="!showAll">
+    <div x-show="!showAll" class="mb-3">
       {% include 'tasks/table_tasks.html' %}
     </div>
 

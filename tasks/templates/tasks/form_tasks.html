@@ -2,23 +2,26 @@
 
 {% block content %}
 
-  <form hx-post="{% url 'tasks:create_tasks' %}" hx-target='#tasks_table' hx-swap="beforeend" hx-disabled-elt= "find button[id='save'], find button[id='close']">
-    {% csrf_token %}
-    {{form|crispy}}
-    <div>
-      <button type="submit" id="save" class="btn bg-gradient-success me-2">Salvar</button>
-      <button type="button" id="close" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cancelar</button>
-    </div>
-  </form>
+<form class="p-3"
+      hx-post="{% url 'tasks:create_tasks' %}" 
+      hx-target='#tasks_table' 
+      hx-swap="beforeend" 
+      hx-disabled-elt="find button[id='save'], find button[id='close']">
+      
+  {% csrf_token %}
+  {{ form|crispy }}
+  <div>
+    <button type="submit" id="save" class="btn bg-gradient-success me-2">Salvar</button>
+    <button type="button" id="close" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cancelar</button>
+  </div>
+</form>
 
-  <script>
-
-    document.body.addEventListener("htmx:afterSettle", function (event) {
-    const modal = bootstrap.Modal.getInstance(document.getElementById("exampleModal"));
+<script>
+  document.body.addEventListener("htmx:afterSettle", function (event) {
+    const modal = bootstrap.Modal.getInstance(document.getElementById("CreateTaskModal"));
     if (modal) {
       modal.hide();
     }
   });
-   
-  </script>
+</script>
 {% endblock %}

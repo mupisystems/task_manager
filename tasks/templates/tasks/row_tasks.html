@@ -15,11 +15,31 @@
     <h6 class="text-sm mb-0">{{ task.due_date|date:"d M Y" }}</h6>
   </td>
 
+  <td class="align-middle text-center">
+    <h6 class="text-sm mb-0">{{ task.task.count }}</h6>
+  </td>
+
   <td style="display: flex; justify-content: space-evenly;">
-    <button type="button" class="btn bg-gradient-info btn-sm mb-0 me-1 px-3 align-items-center">
+    <button type="button" class="btn bg-gradient-info btn-sm mb-0 me-1 px-3 align-items-center"
+            hx-get="{% url 'tasks:task_detail' task.id %}"
+            hx-target="#taskDetailModalBody"
+            hx-swap="innerHTML"
+            data-bs-toggle="modal" data-bs-target="#taskDetailModal">
       Ver
     </button>
-    <button type="button" class="btn bg-gradient-success btn-sm mb-0 me-1 px-3">
+    <button type="button" class="btn bg-gradient-primary btn-sm mb-0 me-1 px-3"
+            hx-get="{% url 'tasks:edit_task' task.id %}"
+            hx-target="#editTaskModalBody"
+            hx-swap="innerHTML"
+            data-bs-toggle="modal" 
+            data-bs-target="#editTaskModal">
+      Editar
+    </button>
+    <button type="button" class="btn bg-gradient-success btn-sm mb-0 me-1 px-3"
+            hx-get="{% url 'tasks:complete_task' task.id %}"  
+            hx-target="#completeTaskModalBody"  
+            hx-swap="innerHTML"
+            data-bs-toggle="modal" data-bs-target="#completeTaskModal">  
       Concluir
     </button>
     <button type="button" class="btn bg-gradient-danger btn-sm mb-0 px-3"
@@ -41,3 +61,34 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="completeTaskModal" tabindex="-1" role="dialog" aria-labelledby="completeTaskModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body" id="completeTaskModalBody">
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="taskDetailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body" id="taskDetailModalBody">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body" id="editTaskModalBody">
+
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,35 @@
+<div class="p-4">
+  <h5 class="mb-3">Tem certeza de que deseja concluir a tarefa?</h5>
+  <p class="mb-4">Tarefa: <strong>{{ task.title }}</strong></p>
+  
+  <form method="post"
+        hx-post="{% url 'tasks:complete_task' task.id %}"  
+        hx-target="#task-row-{{ task.id }}"  
+        hx-swap="outerHTML">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success me-1">Sim, concluir</button>
+    <button type="button" class="btn bg-gradient-danger" data-bs-dismiss="modal">Cancelar</button>
+  </form>
+</div>
+
+<script>
+  document.body.addEventListener("htmx:afterRequest", function (event) {
+    if (event.detail.xhr.status === 204) {
+        const modalElement = document.getElementById("completeTaskModal");
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        
+        if (modal) {
+            modal.hide();  
+            modalElement.classList.remove('show');  
+            document.body.classList.remove('modal-open');  
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();  
+        }
+
+        
+        const taskId = event.detail.xhr.getResponseHeader("X-Task-Id");
+        const row = document.getElementById(`task-row-${taskId}`);
+        if (row) row.remove(); 
+    }
+  });
+</script>
